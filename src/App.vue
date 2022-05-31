@@ -1,26 +1,62 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    {{responseData}}
+    <GMapMap
+      :center="center"
+      :zoom="18"
+      map-type-id="terrain"
+      style="width: 1200px; height: 800px"
+    >
+      <GMapCluster>
+        <GMapMarker
+          :key="index"
+          v-for="(m, index) in markers"
+          :position="m.position"
+          :clickable="true"
+          :draggable="true"
+          @click="center=m.position"
+        />
+      </GMapCluster>
+    </GMapMap>
+  </div>
+
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      center: {lat: 0, lng: 0},
+      markers: [
+        {
+          id: '0',
+          position: {
+            lat: 0, lng: 0
+          },
+        },
+      ],
+      responseData: Object,
+    }
+  },
+  async beforeMount() {
+    setInterval(async () => {
+      await this.fetchData();
+      this.center.lat = this.responseData[0].coords.x;
+      this.center.lng = this.responseData[0].coords.y;
+      this.markers[0].position.lat = this.responseData[0].coords.x;
+      this.markers[0].position.lng = this.responseData[0].coords.y;
+    }, 1000)
+  },
+  methods: {
+    async fetchData() {
+      try {
+        this.responseData = await fetch(`http://127.0.0.1:3000/locations/`, {
+          method: 'GET',
+        }).then(res => res.json());
+      } catch (e) {
+        console.log(e)
+      }
+    },
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
