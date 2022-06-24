@@ -1,62 +1,41 @@
+<script setup>
+  import { RouterLink } from 'vue-router'
+</script>
+
 <template>
   <div>
-    {{responseData}}
-    <GMapMap
-      :center="center"
-      :zoom="18"
-      map-type-id="terrain"
-      style="width: 1200px; height: 800px"
-    >
-      <GMapCluster>
-        <GMapMarker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          :clickable="true"
-          :draggable="true"
-          @click="center=m.position"
-        />
-      </GMapCluster>
-    </GMapMap>
+    <header>
+      <nav class="navbar  navbar-expand-lg navbar-light bg-light ">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="container-fluid mx-auto">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/">Home</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" to="/map">Map</RouterLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
   </div>
+  <RouterView />
 
 </template>
-<script>
-export default {
-  name: 'App',
-  data() {
-    return {
-      center: {lat: 0, lng: 0},
-      markers: [
-        {
-          id: '0',
-          position: {
-            lat: 0, lng: 0
-          },
-        },
-      ],
-      responseData: Object,
-    }
-  },
-  async beforeMount() {
-    setInterval(async () => {
-      await this.fetchData();
-      this.center.lat = this.responseData[0].coords.x;
-      this.center.lng = this.responseData[0].coords.y;
-      this.markers[0].position.lat = this.responseData[0].coords.x;
-      this.markers[0].position.lng = this.responseData[0].coords.y;
-    }, 1000)
-  },
-  methods: {
-    async fetchData() {
-      try {
-        this.responseData = await fetch(`http://127.0.0.1:3000/locations/`, {
-          method: 'GET',
-        }).then(res => res.json());
-      } catch (e) {
-        console.log(e)
-      }
-    },
+
+<style>
+  header {
+    margin-bottom: 10px;
   }
-}
-</script>
+  #app {
+    margin: 0 10px;
+    min-width: 360px;
+  }
+</style>
+
+
