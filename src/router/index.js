@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHistory(process.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -13,7 +13,12 @@ const router = createRouter({
       path: '/map',
       name: 'map',
       component: () => import('../views/MapView.vue')
-    }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'page404',
+      component: () => import('../views/404View'),
+    },
   ]
 })
 

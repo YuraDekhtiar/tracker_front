@@ -58,6 +58,7 @@ export default {
   name: 'App',
   data() {
     return {
+      isLoading: true,
       time_last_connection: Object,
       isOnline: false,
       center: {
@@ -98,7 +99,7 @@ export default {
             method: 'GET',
           }).then(res => res.json()),
         ])
-        this.time_last_connection = await fetch(`/api/device/status/1`, {
+        this.time_last_connection = await fetch(`/api/devices/status?id=1`, {
           method: 'GET',
         }).then(res => res.json())
 
