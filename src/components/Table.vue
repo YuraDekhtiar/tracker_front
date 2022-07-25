@@ -17,7 +17,8 @@
       <td>{{ item.name }}</td>
       <td>{{ item.time_last_connection }}</td>
       <td>{{ item.is_online }}</td>
-      <td><button type="button" class="btn btn-info">Tracking</button></td>
+      <td><RouterLink class="btn btn-info" :to="`/map/${item.id}`">Tracking</RouterLink></td>
+
     </tr>
     </tbody>
   </table>

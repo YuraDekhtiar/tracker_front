@@ -1,10 +1,10 @@
 <script setup>
   import dateFilter from "@/commons/date.filter";
-
 </script>
+
 <template>
-  <main class="container-fluid">
-    <div class="row" v-if="!isLoading">
+  <main class="container-fluid" v-if="!isLoading">
+    <div class="row">
       <div class="col-md-3 info">
         <div class="card info">
           <div class="card-header">ID: {{responseData[0].device_id}}</div>
@@ -24,10 +24,10 @@
       </div>
       <div class="col-lg-9">
         <GMapMap class="map"
-          :center="center"
-          :zoom="16"
-          map-type-id="terrain"
-          :options="{
+                 :center="center"
+                 :zoom="16"
+                 map-type-id="terrain"
+                 :options="{
             zoomControl: true,
             mapTypeControl: true,
             scaleControl: true,
@@ -50,6 +50,7 @@
       </div>
     </div>
   </main>
+
 </template>
 
 <script>
@@ -77,36 +78,37 @@ export default {
     }
   },
   async beforeMount() {
-    await this.fetchData()
-    this.isLoading = false;
-
-    setInterval(async () => {
-      await this.fetchData()
-      if(this.markers[0].position.lat !== this.responseData[0].coords.x
-        && this.markers[0].position.lng !== this.responseData[0].coords.y
-      ) {
-        this.markers[0].position.lat = this.responseData[0].coords.x;
-        this.markers[0].position.lng = this.responseData[0].coords.y;
-      }
-    }, 5000)
+    if(this.$route.params.id !== undefined) {
+      setInterval(async () => {
+        await this.fetchData(this.$route.params.id)
+        this.isLoading = false;
+        if(this.markers[0].position.lat !== this.responseData[0].coords.x
+          && this.markers[0].position.lng !== this.responseData[0].coords.y
+        ) {
+          this.markers[0].position.lat = this.responseData[0].coords.x;
+          this.markers[0].position.lng = this.responseData[0].coords.y;
+        }
+      }, 5000)
+    }
 
   },
   methods: {
-    async fetchData() {
-      try {
-        await Promise.all([
-          this.responseData = await fetch(`/api/locations/`, {
-            method: 'GET',
-          }).then(res => res.json()),
-        ])
-        this.time_last_connection = await fetch(`/api/devices/status?id=1`, {
-          method: 'GET',
-        }).then(res => res.json())
+    async fetchData(id) {
+        try {
+          await Promise.all([
+            this.responseData = await fetch(`/api/locations?id=${id}`, {
+              method: 'GET',
+            }).then(res => res.json()),
+            this.time_last_connection = await fetch(`/api/devices/status?id=${id}`, {
+              method: 'GET',
+            }).then(res => res.json())
+          ])
 
-        console.log(this.time_last_connection)
-      } catch (e) {
-        console.log(e)
-      }
+
+          console.log(this.time_last_connection)
+        } catch (e) {
+          console.log(e)
+        }
     },
     getCenter() {
       this.center.lat = this.responseData[0].coords.x;
