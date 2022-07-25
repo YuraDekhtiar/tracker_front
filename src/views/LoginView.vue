@@ -40,7 +40,7 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push("/profile");
+      this.$router.push("/");
     }
   },
   methods: {
@@ -52,7 +52,7 @@ export default {
       }
       this.$store.dispatch("auth/login", user).then(
           () => {
-            this.$router.push("/profile");
+            this.$router.push("/");
           },
           (error) => {
             this.loading = false;
