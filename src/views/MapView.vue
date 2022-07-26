@@ -10,7 +10,8 @@
           <div class="card-header">ID: {{responseData[0].device_id}}</div>
           <div class="card-header">DATETIME: {{
               dateFilter(responseData[0].time)
-            }}</div>
+            }}
+          </div>
           <div class="card-header">LAT: {{responseData[0].coords.x}}</div>
           <div class="card-header">LNG: {{responseData[0].coords.y}}</div>
           <div class="card-header">SPEED: {{responseData[0].speed}}</div>
@@ -103,9 +104,6 @@ export default {
               method: 'GET',
             }).then(res => res.json())
           ])
-
-
-          console.log(this.time_last_connection)
         } catch (e) {
           console.log(e)
         }

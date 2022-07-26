@@ -15,8 +15,12 @@ const authService = {
                 return response.data;
             });
     },
-    logout: () => {
-        tokenService.removeUser();
+    logout: async () => {
+      await api
+        .post('auth/logout', {
+          refreshToken: tokenService.getLocalRefreshToken()
+        })
+      return tokenService.removeUser();
     },
 
 }

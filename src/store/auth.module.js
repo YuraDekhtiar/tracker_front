@@ -21,8 +21,8 @@ export const auth = {
           }
       );
     },
-    logout({ commit }) {
-      AuthService.logout();
+    async logout({commit}) {
+      await AuthService.logout();
       commit('logout');
     },
     refreshToken({ commit }, accessToken) {

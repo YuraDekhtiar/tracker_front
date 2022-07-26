@@ -5,7 +5,7 @@
 <template>
   <div>
     <header>
-      <nav class="navbar  navbar-expand-lg navbar-light bg-light ">
+      <nav v-if="this.$store.state.auth.status.loggedIn" class="navbar  navbar-expand-lg navbar-light bg-light ">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -18,6 +18,9 @@
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/map">Map</RouterLink>
               </li>
+              <li class="nav-item">
+                <button class="nav-link" :onclick="logout">Logout</button>
+              </li>
             </ul>
           </div>
         </div>
@@ -27,6 +30,27 @@
   <RouterView />
 
 </template>
+
+<script>
+  export default {
+    methods: {
+      logout() {
+        this.$store.dispatch("auth/logout").then(() => {
+          this.$router.push("/login");
+        },
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString();
+          });
+        }
+      }
+  }
+</script>
 
 <style>
   header {
