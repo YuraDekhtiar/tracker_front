@@ -56,6 +56,8 @@
 
 <script>
 
+import api from "@/api/api";
+
 export default {
   name: 'App',
   data() {
@@ -97,12 +99,8 @@ export default {
     async fetchData(id) {
         try {
           await Promise.all([
-            this.responseData = await fetch(`/api/locations?id=${id}`, {
-              method: 'GET',
-            }).then(res => res.json()),
-            this.time_last_connection = await fetch(`/api/devices/status?id=${id}`, {
-              method: 'GET',
-            }).then(res => res.json())
+            this.responseData = await api.get(`locations?id=${id}`).then(r => r.data),
+            this.time_last_connection = await api.get(`devices/status?id=${id}`).then(r => r.data)
           ])
         } catch (e) {
           console.log(e)
