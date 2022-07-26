@@ -5,7 +5,7 @@ const setup = (store) => {
     axiosInstance.interceptors.request.use(
         (config) => {
             const token = tokenService.getLocalAccessToken();
-            if(token) {
+          if(token) {
                 config.headers["x-access-token"] = token;
             }
             return config;

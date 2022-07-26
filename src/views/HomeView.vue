@@ -8,6 +8,7 @@
 
 <script>
 import vTable from "@/components/Table";
+import api from "@/api/api";
 
 export default {
   components: {
@@ -24,14 +25,9 @@ export default {
   },
   methods: {
     async fetchData() {
-      try {
-        this.resData = await fetch(`/api/devices/`, {
-          method: 'GET',
-          }).then(res => res.json())
-        } catch (e) {
-          console.log(e)
-        }
-      },
+      this.resData = await api
+        .get('devices').then(r => r.data)
+    }
   }
 }
 </script>
