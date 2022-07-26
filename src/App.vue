@@ -19,7 +19,7 @@
                 <RouterLink class="nav-link" to="/map">Map</RouterLink>
               </li>
               <li class="nav-item">
-                <button class="nav-link" :onclick="logout">Logout</button>
+                <button class="nav-link" v-on:click="logout">Logout</button>
               </li>
             </ul>
           </div>
