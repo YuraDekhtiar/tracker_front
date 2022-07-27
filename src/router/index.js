@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
+  // eslint-disable-next-line
   history: createWebHistory(process.env.BASE_URL),
   routes: [
     {

@@ -69,6 +69,7 @@ export default {
         lat: 0.0,
         lng: 0.0
       },
+      refreshIntervalId: 0,
       markers: [
         {
           id: 'dfsldjl3r',
@@ -80,9 +81,12 @@ export default {
       responseData: Object,
     }
   },
+  beforeUnmount() {
+    clearInterval(this.refreshIntervalId)
+  },
   async beforeMount() {
     if(this.$route.params.id !== undefined) {
-      setInterval(async () => {
+      this.refreshIntervalId = setInterval(async () => {
         await this.fetchData(this.$route.params.id)
         this.isLoading = false;
         if(this.markers[0].position.lat !== this.responseData[0].coords.x
@@ -93,7 +97,6 @@ export default {
         }
       }, 5000)
     }
-
   },
   methods: {
     async fetchData(id) {
