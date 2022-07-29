@@ -21,6 +21,11 @@ const router = createRouter({
       component: () => import('../views/LoginView')
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/ProfileView')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'page404',
       component: () => import('../views/404View'),

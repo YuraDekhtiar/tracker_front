@@ -29,7 +29,7 @@
               </div>
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><RouterLink class="dropdown-item" to="/profile">Profile</RouterLink></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#" v-on:click="logoutHandler">Logout</a></li>
             </ul>
