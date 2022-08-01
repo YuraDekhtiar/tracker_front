@@ -1,5 +1,7 @@
 <template>
     <div class="container">
+      Users:
+      <br/>
       {{data}}
     </div>
 
@@ -25,7 +27,7 @@ export default {
       await this.$router.push("/login");
     }
 
-    this.data = await api.get('/profile').then(r => r.data);
+    this.data = await api.get('/users').then(r => r.data);
   },
 }
 </script>
