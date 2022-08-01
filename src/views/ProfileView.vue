@@ -75,9 +75,6 @@ export default {
     },
   },
   async created() {
-    if (!this.loggedIn) {
-      await this.$router.push("/login");
-    }
     this.data = await api.get('/profile').then(r => r.data);
   },
   methods: {

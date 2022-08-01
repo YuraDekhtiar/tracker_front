@@ -31,6 +31,11 @@ const router = createRouter({
       component: () => import('../views/UsersView')
     },
     {
+      path: '/create-new-user',
+      name: 'createNewUser',
+      component: () => import('../views/CreateUserVIew')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'page404',
       component: () => import('../views/404View'),

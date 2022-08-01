@@ -40,7 +40,7 @@ export default {
       isLoading: Boolean,
       devices: Array,
     }
-    },
+  },
   async beforeMount() {
     await this.fetchData()
     this.isLoading = false;

@@ -63,9 +63,6 @@ export default {
     }
   },
   async created() {
-    if (!this.loggedIn) {
-      await this.$router.push("/login");
-    }
     this.users = await api.get('/users').then(
       r => r.data,
       (error) => {
