@@ -72,7 +72,7 @@ export default {
       refreshIntervalId: 0,
       markers: [
         {
-          id: 'dfsldjl3r',
+          id: 'label',
           position: {
             lat: 51.093048, lng: 6.842120
           },
@@ -85,7 +85,7 @@ export default {
     clearInterval(this.refreshIntervalId)
   },
   async beforeMount() {
-    if(this.$route.params.id !== undefined) {
+    if(this.$route.params.id !== 'undefined') {
       this.refreshIntervalId = setInterval(async () => {
         await this.fetchData(this.$route.params.id)
         this.isLoading = false;

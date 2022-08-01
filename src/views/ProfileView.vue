@@ -1,6 +1,10 @@
+<script setup>
+  import dateFilter from "@/commons/date.filter";
+</script>
 <template>
   <div class="container">
     <div class="row">
+
       <div class="col-sm-5 col-md-3 col-lg-3">
         <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
@@ -9,47 +13,45 @@
             </div>
           </div>
           <div class="col-sm">
+            <hr/>
             <div>
               <div class="mt-3">
-                Login: {{data.username}}
+                <span class="fs-4 text">Login: </span><span class="fs-5 text">{{data.username}}</span>
               </div>
               <div class="mt-3">
-                Email: {{data.email}}
+                <span class="fs-4 text">Email: </span><span class="fs-5 text">{{data.email}}</span>
               </div>
               <div class="mt-3">
-                Last visit: {{data.last_visit}}
+                <span class="fs-4 text">Last visit: </span><span class="fs-5 text">{{dateFilter(data.last_visit)}}</span>
               </div>
               <div class="mt-3">
-                Date_registration: {{data.date_registration}}
+                <span class="fs-4 text">Date registration: </span><span class="fs-5 text">{{dateFilter(data.date_registration)}}</span>
               </div>
               <div class="mt-3">
-                Roles: {{data.roles.map(r => r.name)}}
+                <ul>
+                  <span class="fs-5 text">Roles: </span>
+                  <li v-for="item in data.roles" :key="item.name">
+                    <span class="fs-5 text">{{ item.name }}</span>
+                  </li>
+                </ul>
               </div>
-              <div class="mt-3 ">Change password:</div>
-              <div class="input-group mt-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Old password</span>
+              <hr/>
+              <form v-on:submit.prevent="handleChangePass">
+                <div class="fs-5 text" >Change password:</div>
+                <input type="password" class="form-control mt-1" name="oldPass" placeholder="Old password">
+                <input type="password" class="form-control mt-2" name="newPass" placeholder="New password">
+                <input type="password" class="form-control mt-1" name="confNewPass" placeholder="Confirm new password">
+                <div
+                  v-if="message"
+                  class="alert mt-2"
+                  :class="successful ? 'alert-success' : 'alert-danger'"
+                >
+                  {{ message }}
                 </div>
-                <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-              </div>
-              <div class="input-group mt-1">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">New password</span>
-                </div>
-                <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-              </div>
-              <div class="input-group mt-1 ">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Confirm new password</span>
-                </div>
-                <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-              </div>
-
-                <button type="button" class="btn btn-primary float-right">Change</button>
-
-
+                <button class="btn btn-primary mt-3" type="submit">Save</button>
+              </form>
+              <hr/>
             </div>
-
         </div>
       </div>
       </div>
@@ -63,6 +65,8 @@ export default {
     return {
       loading: false,
       data: Object,
+      message: "",
+      successful: false,
     }
   },
   computed: {
@@ -74,9 +78,35 @@ export default {
     if (!this.loggedIn) {
       await this.$router.push("/login");
     }
-
     this.data = await api.get('/profile').then(r => r.data);
   },
+  methods: {
+    async handleChangePass(submitEvent) {
+      this.loading = true;
+      this.message = "";
+      const passwords = {
+        oldPassword: submitEvent.target.elements.oldPass.value,
+        newPassword: submitEvent.target.elements.newPass.value,
+        confNewPassword: submitEvent.target.elements.confNewPass.value,
+      }
+      if (passwords.newPassword !== passwords.confNewPassword) {
+        this.message = "Confirm password doesn't match New password"
+        this.successful = false
+      } else {
+        await api.post('/profile/change-pass', passwords).then( () => {
+            this.message = "Success";
+            this.successful = true;
+
+          },
+          (error) => {
+            console.log(error)
+            this.message = error.response.data.message
+            this.successful = false;
+          }
+        );
+      }
+    },
+  }
 }
 </script>
 
