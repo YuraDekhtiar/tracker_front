@@ -15,7 +15,7 @@
           <li class="nav-item">
             <RouterLink class="nav-link" to="/map">Map</RouterLink>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="isAdmin" >
             <RouterLink class="nav-link" to="/users">Users</RouterLink>
           </li>
         </ul>
@@ -49,7 +49,18 @@ export default {
   props: {
     logoutHandler: Function,
     userName: String,
-  }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser && this.currentUser['roles']) {
+        return this.currentUser['roles'].includes('admin');
+      }
+      return false;
+    }
+  },
 }
 </script>
 

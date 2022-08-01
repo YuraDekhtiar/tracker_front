@@ -5,7 +5,7 @@
 <template>
   <div>
     <header v-if="this.$store.state.auth.status.loggedIn">
-      <Navbar  v-if="isAdmin"  :logoutHandler="logout" v-bind:userName="this.currentUser.username" />
+      <Navbar :logoutHandler="logout" v-bind:userName="this.currentUser.username" />
     </header>
   </div>
   <RouterView />
@@ -18,12 +18,6 @@
       currentUser() {
         return this.$store.state.auth.user;
       },
-      isAdmin() {
-        if (this.currentUser && this.currentUser['roles']) {
-          return this.currentUser['roles'].includes('admin');
-        }
-        return false;
-      }
     },
     methods: {
       logout() {
