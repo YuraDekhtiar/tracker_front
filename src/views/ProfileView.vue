@@ -4,7 +4,6 @@
 <template>
   <div class="container">
     <div class="row">
-
       <div class="col-sm-5 col-md-3 col-lg-3">
         <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
@@ -93,10 +92,8 @@ export default {
         await api.post('/profile/change-pass', passwords).then( () => {
             this.message = "Success";
             this.successful = true;
-
           },
           (error) => {
-            console.log(error)
             this.message = error.response.data.message
             this.successful = false;
           }
