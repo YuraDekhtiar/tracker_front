@@ -5,6 +5,7 @@
 <template>
     <div v-if="!isLoading" class="container">
       <h2 class="text-center">Users</h2>
+      <RouterLink class="float-end btn btn-info" :to="`/create-new-user`">Create user</RouterLink>
       <div v-if="errorResponse" class="alert alert-danger" role="alert">
         {{errorMessage}}
       </div>
@@ -22,10 +23,10 @@
           </thead>
           <tbody>
           <tr v-for="(item, i) in users" v-bind:key="i">
-            <th scope="row">{{ item.id }}</th>
+            <th scope="row">{{ i+1 }}</th>
             <td>{{ item.username }}</td>
             <td>{{ item.email }}</td>
-            <td>{{dateFilter(item.last_visit)}}</td>
+            <td>{{ dateFilter(item.last_visit) }}</td>
             <td>
               <div v-for="(item, i) in item.roles" v-bind:key="i">
                 <div>{{item.name}}</div>
@@ -36,9 +37,7 @@
           </tbody>
         </table>
       </div>
-
     </div>
-
 </template>
 
 <script>
