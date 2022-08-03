@@ -12,11 +12,11 @@
           <li class="nav-item">
             <RouterLink class="nav-link" to="/">Devices</RouterLink>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/map">Map</RouterLink>
-          </li>
           <li class="nav-item" v-if="isAdmin" >
             <RouterLink class="nav-link" to="/users">Users</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/map">Map</RouterLink>
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
