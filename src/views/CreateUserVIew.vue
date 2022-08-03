@@ -4,7 +4,6 @@
       {{ errorMessage }}
     </div>
     <div v-else>
-      <h2 class="text-center">Create new user</h2>
       <div
         v-if="message"
         class="alert mt-2"
@@ -13,6 +12,8 @@
         {{ message }}
       </div>
       <div class="col-md-12  col-lg-8 d-block mx-auto mb-4" v-if="!successful">
+        <h2 class="text-center">Create new user</h2>
+
         <vForm @submit="onSubmit" :validation-schema="schema">
           <label for="username" class="form-label">Username</label>
           <Field class="form-control" placeholder="admin" name="username" type="text" v-model="username" />
@@ -42,9 +43,8 @@
               <label class="form-check-label" for="role-admin">Admin</label>
             </div>
           </div>
-          <hr>
-          {{role}}
-          <button class="btn btn-success">Create</button>
+          <hr />
+          <button class="float-end btn btn-success">Create</button>
         </vForm>
       </div>
     </div>
