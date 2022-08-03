@@ -13,7 +13,6 @@
       </div>
       <div class="col-md-12  col-lg-8 d-block mx-auto mb-4" v-if="!successful">
         <h2 class="text-center">Create new user</h2>
-
         <vForm @submit="onSubmit" :validation-schema="schema">
           <label for="username" class="form-label">Username</label>
           <Field class="form-control" placeholder="admin" name="username" type="text" v-model="username" />
