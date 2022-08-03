@@ -17,10 +17,10 @@
             <th scope="col">Email</th>
             <th scope="col">Last visit</th>
             <th scope="col">Roles</th>
+            <th scope="col">Actions</th>
           </tr>
           </thead>
           <tbody>
-
           <tr v-for="(item, i) in users" v-bind:key="i">
             <th scope="row">{{ item.id }}</th>
             <td>{{ item.username }}</td>
@@ -31,6 +31,7 @@
                 <div>{{item.name}}</div>
               </div>
             </td>
+            <td><button class="btn btn-danger" title="Delete" @click="deleteHandler(item.id)">X</button></td>
           </tr>
           </tbody>
         </table>
@@ -72,6 +73,12 @@ export default {
       }
     );
     this.isLoading = false;
+  },
+  methods: {
+    async deleteHandler(id) {
+      await api.delete(`/users/delete?id=${id}`)
+      this.users = this.users.filter(u => u.id !== id)
+    }
   }
 }
 </script>
