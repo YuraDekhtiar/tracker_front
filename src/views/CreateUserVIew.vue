@@ -34,7 +34,7 @@
           <h4 class="mt-3">Roles</h4>
           <div class="ms-3">
             <div class="form-check">
-              <input v-model="role" value="user" id="role-user" name="roles" type="radio" class="form-check-input" checked="true" required="">
+              <input v-model="role" value="user" id="role-user" name="roles" type="radio" class="form-check-input" checked required="">
               <label class="form-check-label" for="role-user">User</label>
             </div>
             <div class="form-check">
@@ -113,7 +113,6 @@ export default {
           this.successful = false;
         }
       )
-
     }
   }
 }
