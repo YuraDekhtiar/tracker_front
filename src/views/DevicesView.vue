@@ -3,7 +3,8 @@
 </script>
 
 <template>
-  <div v-if="!isLoading">
+  <div v-if="!isLoading" class="container">
+    <h2 class="text-center">Devices</h2>
     <table class="table">
       <thead>
       <tr>
