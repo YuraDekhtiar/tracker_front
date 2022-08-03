@@ -89,7 +89,7 @@ export default {
         this.message = "Confirm password doesn't match New password"
         this.successful = false
       } else {
-        await api.post('/profile/change-pass', passwords).then( () => {
+        await api.put('/profile/change-pass', passwords).then( () => {
             this.message = "Success";
             this.successful = true;
           },
