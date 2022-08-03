@@ -4,6 +4,7 @@
 
 <template>
     <div v-if="!isLoading" class="container">
+      <h2 class="text-center">Users</h2>
       <div v-if="errorResponse" class="alert alert-danger" role="alert">
         {{errorMessage}}
       </div>
@@ -67,7 +68,7 @@ export default {
       r => r.data,
       (error) => {
         this.errorResponse = true;
-        this.errorMessage = `${error.response.data.status} ${error.response.data.message}`;
+        this.errorMessage = `${error.response.data.status || ""}  ${error.response.data.message || "Not internet connecting"}`;
       }
     );
     this.isLoading = false;

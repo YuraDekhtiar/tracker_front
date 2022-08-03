@@ -9,10 +9,10 @@
               <h3 class="text-center mb-4">Sign In</h3>
               <form  v-on:submit.prevent="handleLogin" class="login-form">
                 <div class="form-group">
-                  <input type="text" name="username" class="form-control rounded-left mb-2" placeholder="Username" required>
+                  <input type="text" name="username" class="form-control rounded-left mb-2" placeholder="Username" required v-model="username">
                 </div>
                 <div class="form-group d-flex">
-                  <input type="password" name="password" class="form-control rounded-left mb-2" placeholder="Password" required>
+                  <input type="password" name="password" class="form-control rounded-left mb-2" placeholder="Password" required v-model="password">
                 </div>
                 <div class="form-group">
                   <button type="submit" class="form-control btn btn-primary rounded submit px-3 mb-2">Login</button>
@@ -31,6 +31,8 @@ export default {
     return {
       loading: false,
       message: "",
+      username: "",
+      password: ""
     }
   },
   computed: {
@@ -44,11 +46,11 @@ export default {
     }
   },
   methods: {
-    handleLogin(submitEvent) {
+    handleLogin() {
       this.loading = true;
       const user = {
-        username: submitEvent.target.elements.username.value,
-        password: submitEvent.target.elements.password.value,
+        username: this.username,
+        password: this.password,
       }
       this.$store.dispatch("auth/login", user).then(
           () => {
