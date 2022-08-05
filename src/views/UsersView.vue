@@ -60,7 +60,11 @@ export default {
       return false;
     }
   },
+
   async created() {
+    if (!this.isAdmin) {
+      await this.$router.push("/404");
+    }
     this.users = await api.get('/users').then(
       r => r.data,
       (error) => {
