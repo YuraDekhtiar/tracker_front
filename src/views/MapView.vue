@@ -17,7 +17,7 @@
           <div class="card-header">SPEED: {{responseData[0].speed}}</div>
           <div class="card-header">Battery: {{responseData[0].battery_level}} %</div>
           <div class="card-header">Temp: {{responseData[0].temp}} &#8451;</div>
-          <div class="card-header">Is charging: {{responseData[0].is_charging}} </div>
+          <div class="card-header">Is charging: {{responseData[0].is_charging === 1 ? true : false}} </div>
           <div class="card-header">
             <button type="button" class="btn btn-success" @click="getCenter">Знайти</button>
           </div>

@@ -53,9 +53,6 @@ export default {
     }
   },
   computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
     isAdmin() {
       if (this.currentUser && this.currentUser['roles']) {
         return this.currentUser['roles'].includes('admin');

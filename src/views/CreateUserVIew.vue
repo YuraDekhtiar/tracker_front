@@ -82,14 +82,19 @@ export default {
     }
   },
   computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
+    currentUser() {
+      return this.$store.state.auth.user;
     },
     isAdmin() {
       if (this.currentUser && this.currentUser['roles']) {
         return this.currentUser['roles'].includes('admin');
       }
       return false;
+    }
+  },
+  created() {
+    if (!this.isAdmin) {
+      this.$router.push("/404");
     }
   },
   mounted() {
