@@ -64,6 +64,7 @@ export default {
   async created() {
     if (!this.isAdmin) {
       await this.$router.push("/404");
+      return ;
     }
     this.users = await api.get('/users').then(
       r => r.data,
