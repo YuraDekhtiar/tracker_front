@@ -30,7 +30,7 @@ const setup = (store) => {
                         const res = await axiosInstance.post("/auth/refresh-token", {
                             refreshToken: tokenService.getLocalRefreshToken(),
                         });
-                        const {accessToken, refreshToken} = res.data;
+                        const {accessToken, refreshToken} = res.data.result;
                         store.dispatch('auth/refreshToken', accessToken);
                         tokenService.updateLocalTokens(accessToken, refreshToken);
 

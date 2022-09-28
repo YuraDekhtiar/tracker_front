@@ -9,10 +9,10 @@ const authService = {
                 password
             })
             .then(response => {
-                if (response.data.accessToken) {
-                    tokenService.setUser(response.data)
+                if (response.data.result.accessToken) {
+                    tokenService.setUser(response.data.result)
                 }
-                return response.data;
+                return response.data.result;
             });
     },
     logout: async () => {

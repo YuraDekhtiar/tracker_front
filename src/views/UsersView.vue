@@ -53,6 +53,9 @@ export default {
     }
   },
   computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
     isAdmin() {
       if (this.currentUser && this.currentUser['roles']) {
         return this.currentUser['roles'].includes('admin');
@@ -67,7 +70,7 @@ export default {
       return ;
     }
     this.users = await api.get('/users').then(
-      r => r.data,
+      r => r.data.result,
       (error) => {
         this.errorResponse = true;
         this.errorMessage = `${error.response.data.status || ""}  ${error.response.data.message || "Not internet connecting"}`;

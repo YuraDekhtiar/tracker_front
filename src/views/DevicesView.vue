@@ -19,7 +19,7 @@
 
       <tr v-for="(item, i) in devices" v-bind:key="i">
         <th scope="row">{{ item.id }}</th>
-        <td>{{ item.device_login }}</td>
+        <td>{{ item.login }}</td>
         <td>{{ item.name }}</td>
         <td>{{dateFilter(item.time_last_connection)}}</td>
         <td>{{ item.is_online }}</td>
@@ -50,7 +50,7 @@ export default {
   methods: {
     async fetchData() {
       this.devices = await api
-        .get('devices').then(r => r.data)
+        .get('devices').then(r => r.data.result)
     }
   }
 }

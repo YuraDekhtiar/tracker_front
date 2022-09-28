@@ -74,7 +74,7 @@ export default {
     },
   },
   async created() {
-    this.data = await api.get('/profile').then(r => r.data);
+    this.data = await api.get('/profile').then(r => r.data.result);
   },
   methods: {
     async handleChangePass(submitEvent) {

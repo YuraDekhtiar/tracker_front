@@ -7,17 +7,17 @@
     <div class="row">
       <div class="col-md-3 info">
         <div class="card info">
-          <div class="card-header">ID: {{responseData[0].device_id}}</div>
+          <div class="card-header">ID: {{responseData.device_id}}</div>
           <div class="card-header">DATETIME: {{
-              dateFilter(responseData[0].time)
+              dateFilter(responseData.time)
             }}
           </div>
-          <div class="card-header">LAT: {{responseData[0].coords.x}}</div>
-          <div class="card-header">LNG: {{responseData[0].coords.y}}</div>
-          <div class="card-header">SPEED: {{responseData[0].speed}}</div>
-          <div class="card-header">Battery: {{responseData[0].battery_level}} %</div>
-          <div class="card-header">Temp: {{responseData[0].temp}} &#8451;</div>
-          <div class="card-header">Is charging: {{responseData[0].is_charging === 1 ? true : false}} </div>
+          <div class="card-header">LAT: {{responseData.coords.x}}</div>
+          <div class="card-header">LNG: {{responseData.coords.y}}</div>
+          <div class="card-header">SPEED: {{responseData.speed}}</div>
+          <div class="card-header">Battery: {{responseData.battery_level}} %</div>
+          <div class="card-header">Temp: {{responseData.temp}} &#8451;</div>
+          <div class="card-header">Is charging: {{responseData.is_charging === 1 ? true : false}} </div>
           <div class="card-header">
             <button type="button" class="btn btn-success" @click="getCenter">Знайти</button>
           </div>
@@ -89,11 +89,11 @@ export default {
       this.refreshIntervalId = setInterval(async () => {
         await this.fetchData(this.$route.params.id)
         this.isLoading = false;
-        if(this.markers[0].position.lat !== this.responseData[0].coords.x
-          && this.markers[0].position.lng !== this.responseData[0].coords.y
+        if(this.markers[0].position.lat !== this.responseData.coords.x
+          && this.markers[0].position.lng !== this.responseData.coords.y
         ) {
-          this.markers[0].position.lat = this.responseData[0].coords.x;
-          this.markers[0].position.lng = this.responseData[0].coords.y;
+          this.markers[0].position.lat = this.responseData.coords.x;
+          this.markers[0].position.lng = this.responseData.coords.y;
         }
       }, 5000)
     }
@@ -102,16 +102,17 @@ export default {
     async fetchData(id) {
         try {
           await Promise.all([
-            this.responseData = await api.get(`locations?id=${id}`).then(r => r.data),
-            this.time_last_connection = await api.get(`devices/status?id=${id}`).then(r => r.data)
+            this.responseData = await api.get(`locations?id=${id}`).then(r => r.data.result[0]),
+              this.time_last_connection = await api.get(`devices/status?id=${id}`).then(r => r.data.result[0])
           ])
         } catch (e) {
           console.log(e)
         }
+        console.log(this.responseData.coords.x)
     },
     getCenter() {
-      this.center.lat = this.responseData[0].coords.x;
-      this.center.lng = this.responseData[0].coords.y;
+      this.center.lat = this.responseData.coords.x;
+      this.center.lng = this.responseData.coords.y;
     }
   }
 }
