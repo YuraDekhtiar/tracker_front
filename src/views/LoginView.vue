@@ -18,6 +18,13 @@
                   <button type="submit" class="form-control btn btn-primary rounded submit px-3 mb-2">Login</button>
                 </div>
               </form>
+              <div
+                v-if="message"
+                class="alert mt-2"
+                :class="successful ? 'alert-success' : 'alert-danger'"
+              >
+                {{ message }}
+              </div>
             </div>
           </div>
         </div>
@@ -32,7 +39,8 @@ export default {
       loading: false,
       message: "",
       username: "",
-      password: ""
+      password: "",
+      successful: false,
     }
   },
   computed: {
@@ -48,24 +56,28 @@ export default {
   methods: {
     handleLogin() {
       this.loading = true;
-      const user = {
-        username: this.username,
-        password: this.password,
+        const user = {
+        username: this.username.trim(),
+        password: this.password.trim(),
       }
-      this.$store.dispatch("auth/login", user).then(
+      if(user.username.length < 4 || user.password.length < 8) {
+        this.message = "Login or password is too short"
+      } else {
+        this.$store.dispatch("auth/login", user).then(
           () => {
             this.$router.push("/");
           },
           (error) => {
             this.loading = false;
             this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
           }
-      );
+        );
+      }
     },
   },
 }
