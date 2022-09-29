@@ -78,20 +78,25 @@ export default {
   },
   methods: {
     async handleChangePass(submitEvent) {
+      const minLength = 8;
       this.loading = true;
       this.message = "";
       const passwords = {
-        oldPassword: submitEvent.target.elements.oldPass.value,
-        newPassword: submitEvent.target.elements.newPass.value,
-        confNewPassword: submitEvent.target.elements.confNewPass.value,
+        oldPassword: submitEvent.target.elements.oldPass.value.trim(),
+        newPassword: submitEvent.target.elements.newPass.value.trim(),
+        confNewPassword: submitEvent.target.elements.confNewPass.value.trim(),
       }
       if (passwords.newPassword !== passwords.confNewPassword) {
         this.message = "Confirm password doesn't match New password"
+        this.successful = false
+      } else if(passwords.oldPassword < minLength || passwords.newPassword < minLength || passwords.confNewPassword < minLength) {
+        this.message = "The password must be at least 8 characters"
         this.successful = false
       } else {
         await api.put('/profile/change-pass', passwords).then( () => {
             this.message = "Success";
             this.successful = true;
+
           },
           (error) => {
             this.message = error.response.data.message
