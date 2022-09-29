@@ -110,7 +110,7 @@ export default {
       }
       api.post('users/create-new-user', user).then(
         (res) => {
-          this.message = res.data.message
+          this.message = "User created successfully"
           this.successful = true;
         },
         (error) => {
