@@ -74,7 +74,7 @@ export default {
     },
     async deleteHandler(id) {
       await api.delete(`/device/delete?id=${id}`)
-      this.users = this.users.filter(u => u.id !== id)
+      this.devices = this.devices.filter(d => d.id !== id)
     }
   }
 }
