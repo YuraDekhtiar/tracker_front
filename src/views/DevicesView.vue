@@ -5,7 +5,8 @@
 <template>
   <div v-if="!isLoading" class="container">
     <h2 class="text-center">Devices</h2>
-    <RouterLink class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
+
+    <RouterLink v-if="isAdmin" class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
     <table class="table">
       <thead>
       <tr>
@@ -14,6 +15,7 @@
         <th scope="col">Name</th>
         <th scope="col">Last connection</th>
         <th scope="col">Online</th>
+        <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -24,7 +26,13 @@
         <td>{{ item.name }}</td>
         <td>{{dateFilter(item.time_last_connection)}}</td>
         <td>{{ item.is_online }}</td>
-        <td><RouterLink class="btn btn-success" :to="`/map/${item.id}`">Tracking</RouterLink></td>
+        <td>
+          <span v-if="isAdmin">
+            <button class="btn btn-danger me-2" title="Delete" @click="deleteHandler(item.id)">X</button>
+            <button class="btn btn-info me-2" title="Edit" @click="deleteHandler(item.id)">E</button>
+          </span>
+          <RouterLink class="btn btn-success" :to="`/map/${item.id}`">Tracking</RouterLink>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -43,6 +51,17 @@ export default {
       devices: Array,
     }
   },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser && this.currentUser['roles']) {
+        return this.currentUser['roles'].includes('admin');
+      }
+      return false;
+    }
+  },
   async beforeMount() {
     await this.fetchData()
     this.isLoading = false;
@@ -52,6 +71,10 @@ export default {
     async fetchData() {
       this.devices = await api
         .get('devices').then(r => r.data.result)
+    },
+    async deleteHandler(id) {
+      await api.delete(`/device/delete?id=${id}`)
+      this.users = this.users.filter(u => u.id !== id)
     }
   }
 }
