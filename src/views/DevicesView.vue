@@ -5,6 +5,7 @@
 <template>
   <div v-if="!isLoading" class="container">
     <h2 class="text-center">Devices</h2>
+    <RouterLink class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
     <table class="table">
       <thead>
       <tr>

@@ -36,6 +36,11 @@ const router = createRouter({
       component: () => import('../views/CreateUserVIew')
     },
     {
+      path: '/add-device',
+      name: 'addDevice',
+      component: () => import('../views/AddDeviceView')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'page404',
       component: () => import('../views/404View'),
