@@ -19,9 +19,8 @@
       </tr>
       </thead>
       <tbody>
-
       <tr v-for="(item, i) in devices" v-bind:key="i">
-        <th scope="row">{{ item.id }}</th>
+        <th scope="row">{{ i+1 }}</th>
         <td>{{ item.login }}</td>
         <td>{{ item.name }}</td>
         <td>{{dateFilter(item.time_last_connection)}}</td>
@@ -29,7 +28,7 @@
         <td>
           <span v-if="isAdmin">
             <button class="btn btn-danger me-2" title="Delete" @click="deleteHandler(item.id)">X</button>
-            <button class="btn btn-info me-2" title="Edit" @click="deleteHandler(item.id)">E</button>
+            <RouterLink class="btn btn-info me-2" :to="`/edit/${item.id}`">E</RouterLink>
           </span>
           <RouterLink class="btn btn-success" :to="`/map/${item.id}`">Tracking</RouterLink>
         </td>
@@ -65,7 +64,6 @@ export default {
   async beforeMount() {
     await this.fetchData()
     this.isLoading = false;
-
   },
   methods: {
     async fetchData() {
