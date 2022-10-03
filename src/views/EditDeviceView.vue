@@ -12,9 +12,14 @@
         {{ message }}
       </div>
       <div class="col-md-12  col-lg-8 d-block mx-auto mb-4" v-if="!successful">
-        <h2 class="text-center">Add device</h2>
+        <h2 class="text-center">Edit device</h2>
         <vForm @submit="onSubmit" :validation-schema="schema">
-          <label for="login" class="form-label">Login</label>
+          <label for="id" class="form-label">id</label>
+          <Field class="form-control" name="id" type="text" v-model="id" readonly/>
+          <div>
+            <ErrorMessage class="" name="id"/>
+          </div>
+          <label for="login" class="form-label mt-3">Login</label>
           <Field class="form-control" placeholder="1234" name="login" type="text" v-model="login" />
           <div>
             <ErrorMessage class="" name="login"/>
@@ -35,7 +40,7 @@
             <ErrorMessage class="" name="passwordConfirm"/>
           </div>
           <hr />
-          <button class="float-end btn btn-success">Add</button>
+          <button class="float-end btn btn-success">Save</button>
         </vForm>
       </div>
     </div>
@@ -56,23 +61,25 @@ export default {
   },
   data() {
     const schema = yup.object({
+      id: yup.number().integer().required().min(1).max(999999999999999),
       login: yup.number().integer().required().min(1).max(999999999999999),
       name: yup.string().min(5, "Name must be at least 5 characters").max(45, "Name must be at least 45 characters"),
-      password: yup.string().required('Password is required').min(8, "Password must be at least 8 characters")
-        .max(20, "Password must be at most 20 characters"),
+      password: yup.string().min(8, "Password must be at least 8 characters")
+        .max(20, "Password must be at most 20 characters").nullable(),
       passwordConfirm: yup.string()
-        .oneOf([yup.ref('password'), null], 'Passwords must match').required('Password is required').min(8, "Password must be at least 8 characters")
-        .max(20, "Password must be at most 20 characters"),
+        .oneOf([yup.ref('password'), null], 'Passwords must match').min(8, "Password must be at least 8 characters")
+        .max(20, "Password must be at most 20 characters").nullable(),
     });
     return {
       schema,
       isLoading: true,
       errorMessage: "",
       errorResponse: false,
+      id: "",
       login: "",
       name: "",
-      password: "",
-      passwordConfirm: "",
+      password: null,
+      passwordConfirm: null,
       message: "",
       successful: false,
     }
@@ -96,25 +103,50 @@ export default {
   mounted() {
     this.isLoading = false
   },
+  async beforeMount() {
+    await this.fetchData()
+    this.isLoading = false;
+  },
   methods: {
     onSubmit() {
-      const device = {
-        login: this.login.trim(),
+      console.log("sss")
+      let device = {
+        id: this.id,
+        login: this.login,
         name: this.name.trim(),
-        password: this.password.trim(),
       }
-
-      api.post('device/add-device', device).then(
+      if(this.password !== null) {
+        device = {
+          ...device,
+          password: this.password.trim()
+        }
+      }
+      api.put('device/edit', device).then(
         (res) => {
           this.message = res.data.result.message;
           this.successful = true;
         },
         (error) => {
-          this.message = error.response.data.message
+          this.message = error.response.data.message;
           this.successful = false;
         }
-      )
-    }
+      );
+    },
+    async fetchData() {
+      await api
+        .get(`device?id=${this.$route.params.id}`).then(
+          (res) => {
+            this.id = res.data.result.device.id;
+            this.login = res.data.result.device.login;
+            this.name = res.data.result.device.name;
+
+          },
+          (error) => {
+            this.message = error.response.data.message;
+            this.successful = false;
+          }
+        );
+    },
   }
 }
 </script>
