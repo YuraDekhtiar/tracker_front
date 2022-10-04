@@ -28,9 +28,9 @@
         <td>
           <span v-if="isAdmin">
             <button class="btn btn-danger me-2" title="Delete" @click="deleteHandler(item.id)">X</button>
-            <RouterLink class="btn btn-info me-2" :to="`/edit/${item.id}`">E</RouterLink>
+            <RouterLink class="btn btn-info me-2" :to="`/edit/${item.id}`" title="Edit">E</RouterLink>
           </span>
-          <RouterLink class="btn btn-success" :to="`/map/${item.id}`">Tracking</RouterLink>
+          <RouterLink class="btn btn-success" :to="`/map/${item.id}`" title="Tracking">T</RouterLink>
         </td>
       </tr>
       </tbody>
