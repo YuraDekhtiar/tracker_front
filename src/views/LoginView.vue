@@ -6,8 +6,8 @@
               <div class="icon d-flex align-items-center justify-content-center">
                 <span class="fa fa-user-o"></span>
               </div>
-              <h3 class="text-center mb-4">Sign In</h3>
-              <form  v-on:submit.prevent="handleLogin" class="login-form">
+              <h3 class="text-center mt-5 mb-4">Sign In</h3>
+              <form  @submit="handleLogin" class="login-form">
                 <div class="form-group">
                   <input type="text" name="username" class="form-control rounded-left mb-2" placeholder="Username" required v-model="username">
                 </div>
@@ -18,13 +18,7 @@
                   <button type="submit" class="form-control btn btn-primary rounded submit px-3 mb-2">Login</button>
                 </div>
               </form>
-              <div
-                v-if="message"
-                class="alert mt-2"
-                :class="successful ? 'alert-success' : 'alert-danger'"
-              >
-                {{ message }}
-              </div>
+              <Alert :message="message" :successful="successful" />
             </div>
           </div>
         </div>
@@ -32,7 +26,9 @@
 </template>
 
 <script>
+import Alert from "@/components/Alert";
 export default {
+  components: {Alert},
   data() {
     return {
       loading: false,
