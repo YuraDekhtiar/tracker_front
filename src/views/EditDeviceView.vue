@@ -104,12 +104,11 @@ export default {
     this.isLoading = false
   },
   async beforeMount() {
-    await this.fetchData()
+    await this.fetchData();
     this.isLoading = false;
   },
   methods: {
     onSubmit() {
-      console.log("sss")
       let device = {
         id: this.id,
         login: this.login,
@@ -123,7 +122,7 @@ export default {
       }
       api.put('device/edit', device).then(
         (res) => {
-          this.message = res.data.result.message;
+          this.message = res.data.result?.message;
           this.successful = true;
         },
         (error) => {
@@ -136,9 +135,9 @@ export default {
       await api
         .get(`device?id=${this.$route.params.id}`).then(
           (res) => {
-            this.id = res.data.result.device.id;
-            this.login = res.data.result.device.login;
-            this.name = res.data.result.device.name;
+            this.id = res.data.result.id;
+            this.login = res.data.result.login;
+            this.name = res.data.result.name;
 
           },
           (error) => {
