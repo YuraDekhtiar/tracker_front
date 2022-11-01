@@ -1,11 +1,13 @@
 <script setup>
   import Navbar from "@/components/Navbar";
+  import store from '@/store/index.js';
+
 </script>
 
 <template>
   <div>
-    <header v-if="this.$store.state.auth.status.loggedIn">
-      <Navbar :logoutHandler="logout" v-bind:userName="this.currentUser.username" />
+    <header v-if="store.state.auth.status.loggedIn">
+      <Navbar :logoutHandler="logout" v-bind:userName="currentUser.username" />
     </header>
   </div>
   <RouterView />
