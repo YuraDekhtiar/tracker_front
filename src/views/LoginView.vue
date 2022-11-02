@@ -7,7 +7,7 @@
                 <span class="fa fa-user-o"></span>
               </div>
               <h3 class="text-center mt-5 mb-4">Sign In</h3>
-              <form  @submit="handleLogin" class="login-form">
+              <form  @submit="handleLogin" class="login-form" onsubmit="return false;">
                 <div class="form-group">
                   <input type="text" name="username" class="form-control rounded-left mb-2" placeholder="Username" required v-model="username">
                 </div>
