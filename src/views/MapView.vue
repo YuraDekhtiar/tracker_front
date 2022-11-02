@@ -108,7 +108,6 @@ export default {
         } catch (e) {
           console.log(e)
         }
-        console.log(this.responseData.coords.x)
     },
     getCenter() {
       this.center.lat = this.responseData.coords.x;
