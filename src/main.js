@@ -6,11 +6,9 @@ import store from "./store";
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
-
 import setupInterceptors from "@/services/setupInterceptors";
 
 setupInterceptors(store);
-
 
 createApp(App)
   .use(router)

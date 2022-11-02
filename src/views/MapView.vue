@@ -51,11 +51,9 @@
       </div>
     </div>
   </main>
-
 </template>
 
 <script>
-
 import api from "@/api/api";
 
 export default {
@@ -64,7 +62,6 @@ export default {
     return {
       isLoading: true,
       time_last_connection: Object,
-      isOnline: false,
       center: {
         lat: 0.0,
         lng: 0.0
@@ -72,11 +69,11 @@ export default {
       refreshIntervalId: 0,
       markers: [
         {
-          id: 'label',
           position: {
-            lat: 51.093048, lng: 6.842120
+            lat: 51.093048,
+            lng: 6.84212,
           },
-        }
+        },
       ],
       responseData: Object,
     }
