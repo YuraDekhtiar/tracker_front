@@ -1,9 +1,12 @@
 <script setup>
   import dateFilter from "@/commons/date.filter";
+  import vPreloader from "@/components/Preloader";
 </script>
 
 <template>
-  <div v-if="!isLoading" class="container">
+  <vPreloader v-if="isLoading"/>
+
+  <div v-else class="container">
     <h2 class="text-center">Devices</h2>
 
     <RouterLink v-if="isAdmin" class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>

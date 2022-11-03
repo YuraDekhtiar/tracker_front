@@ -1,9 +1,12 @@
 <script setup>
   import dateFilter from "@/commons/date.filter";
+  import vPreloader from "@/components/Preloader";
 </script>
 
 <template>
-    <div v-if="!isLoading" class="container">
+  <vPreloader v-if="isLoading"/>
+
+  <div v-else class="container">
       <h2 class="text-center">Users</h2>
       <RouterLink class="float-end btn btn-info" :to="`/create-new-user`">Create user</RouterLink>
       <div v-if="errorResponse" class="alert alert-danger" role="alert">

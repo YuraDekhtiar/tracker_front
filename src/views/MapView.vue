@@ -1,9 +1,11 @@
 <script setup>
   import dateFilter from "@/commons/date.filter";
+  import vPreloader from "@/components/Preloader";
 </script>
 
 <template>
-  <main class="container-fluid" v-if="!isLoading">
+  <vPreloader v-if="isLoading"/>
+  <div class="container-fluid" v-else>
     <div class="row">
       <div class="col-md-3 info">
         <div class="card info">
@@ -50,7 +52,7 @@
         </GMapMap>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script>

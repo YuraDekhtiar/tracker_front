@@ -1,5 +1,9 @@
-<template class="container">
-  <div v-if="!isLoading" class="container">
+<script setup>
+  import vPreloader from "@/components/Preloader";
+</script>
+<template>
+  <vPreloader v-if="isLoading"/>
+  <div v-else class="container">
     <div v-if="errorResponse" class="alert alert-danger" role="alert">
       {{ errorMessage }}
     </div>

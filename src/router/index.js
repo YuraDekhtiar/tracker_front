@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/DevicesView.vue'
 
 const router = createRouter({
   // eslint-disable-next-line
@@ -8,7 +7,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('../views/DevicesView')
+
     },
     {
       path: '/map/:id',
