@@ -9,7 +9,7 @@
     "production": "vue-cli-service serve --mode production"
   },
   "dependencies": {
-    "@fawmi/vue-google-maps": "^0.8",
+    "@fawmi/vue-google-maps": "^0.8.7",
     "@vue/cli": "^5.0.8",
     "axios": "^1.1.3",
     "bootstrap": "^5.2.2",
