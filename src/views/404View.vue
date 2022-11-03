@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-center">
+  <div class="container">
     <div class="col-md-12 col-sm-12">
       <div class="card shadow-lg border-0 rounded-lg mt-5 mx-auto" style="width: 30rem;">
         <h3 class="card-header display-1 text-muted text-center">
