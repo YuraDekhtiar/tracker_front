@@ -1,28 +1,25 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-7 col-lg-5">
-            <div class="login-wrap p-4 p-md-5">
-              <div class="icon d-flex align-items-center justify-content-center">
-                <span class="fa fa-user-o"></span>
-              </div>
-              <h3 class="text-center mt-5 mb-4">Sign In</h3>
-              <form  @submit="handleLogin" class="login-form" onsubmit="return false;">
-                <div class="form-group">
-                  <input type="text" name="username" class="form-control rounded-left mb-2" placeholder="Username" required v-model="username">
-                </div>
-                <div class="form-group d-flex">
-                  <input type="password" name="password" class="form-control rounded-left mb-2" placeholder="Password" required v-model="password">
-                </div>
-                <div class="form-group">
-                  <button type="submit" class="form-control btn btn-primary rounded submit px-3 mb-2">Login</button>
-                </div>
-              </form>
-              <Alert :message="message" :successful="successful" />
-            </div>
+  <div class="row justify-content-center me-0 ms-0">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+      <div class="row justify-content-center mt-1 mb-3">
+        <img class="col-xs-2 col-sm-6 col-md-6 col-lg-7 col-xl-5 mt-1" src="/images/logo.png" alt="Logo">
+      </div>
+        <h3 class="text-center my-4">Sign In</h3>
+        <form  @submit="handleLogin" class="login-form" onsubmit="return false;">
+          <div class="form-group">
+            <input type="text" name="username" class="form-control rounded-left mb-2" placeholder="Username" required v-model="username">
           </div>
-        </div>
-    </div>
+          <div class="form-group d-flex">
+            <input type="password" name="password" class="form-control rounded-left mb-2" placeholder="Password" required v-model="password">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="form-control btn btn-primary rounded submit px-3 mb-2">Login</button>
+          </div>
+        </form>
+        <Alert :message="message" :successful="successful" />
+      </div>
+  </div>
+
 </template>
 
 <script>
