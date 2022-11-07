@@ -102,11 +102,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      const device = /*{
+      const device = {
         login: this.login.trim(),
         name: this.name.trim(),
         password: this.password.trim(),
-      }*/
+      }
 
       api.post('device/add-device', device).then(
         (res) => {
