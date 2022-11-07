@@ -36,6 +36,11 @@
           <div>
             <ErrorMessage name="password"/>
           </div>
+          <label for="passwordConfirm" class="form-label mt-3">Confirm password</label>
+          <Field class="form-control" name="passwordConfirm" type="password" v-model="passwordConfirm" />
+          <div>
+            <ErrorMessage name="passwordConfirm"/>
+          </div>
           <h4 class="mt-3">Roles</h4>
           <div class="ms-3">
             <div class="form-check">
@@ -69,9 +74,13 @@ export default {
   },
   data() {
     const schema = yup.object({
-      username: yup.string().required().min(3).max(20),
-      email: yup.string().required().email().max(45),
-      password: yup.string().required().min(8).max(20),
+      username: yup.string().required('Username is required').min(3).max(20),
+      email: yup.string().required('Email is required').email().max(45),
+      password: yup.string().required('Password is required').min(8, "Password must be at least 8 characters")
+        .max(20, "Password must be at most 20 characters"),
+      passwordConfirm: yup.string()
+        .oneOf([yup.ref('password'), null], 'Confirm password must match Password').required('Confirm password is required').min(8, "Confirm password must be at least 8 characters")
+        .max(20, "Confirm password must be at most 20 characters"),
     });
     return {
       schema,
@@ -81,6 +90,7 @@ export default {
       username: "",
       email: "",
       password: "",
+      passwordConfirm: "",
       role: "user",
       message: "",
       successful: false,
