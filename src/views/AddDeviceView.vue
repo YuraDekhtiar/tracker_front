@@ -65,8 +65,8 @@ export default {
       password: yup.string().required('Password is required').min(8, "Password must be at least 8 characters")
         .max(20, "Password must be at most 20 characters"),
       passwordConfirm: yup.string()
-        .oneOf([yup.ref('password'), null], 'Passwords must match').required('Password is required').min(8, "Password must be at least 8 characters")
-        .max(20, "Password must be at most 20 characters"),
+        .oneOf([yup.ref('password'), null], 'Confirm password must match Password').required('Confirm password is required').min(8, "Confirm password must be at least 8 characters")
+        .max(20, "Confirm password must be at most 20 characters"),
     });
     return {
       schema,
