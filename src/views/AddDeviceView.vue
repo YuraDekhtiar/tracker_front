@@ -3,7 +3,7 @@
 </script>
 <template>
   <vPreloader v-if="isLoading"/>
-  <div v-else class="container">
+  <div v-else class="">
     <div v-if="errorResponse" class="alert alert-danger" role="alert">
       {{ errorMessage }}
     </div>
@@ -33,7 +33,7 @@
           <div>
             <ErrorMessage class="" name="password"/>
           </div>
-          <label for="conf-password" class="form-label mt-3">Confirm password</label>
+          <label for="passwordConfirm" class="form-label mt-3">Confirm password</label>
           <Field class="form-control" placeholder="confirm password" name="passwordConfirm" type="password" v-model="passwordConfirm" />
           <div>
             <ErrorMessage class="" name="passwordConfirm"/>
@@ -58,7 +58,7 @@ export default {
     Field,
     ErrorMessage
   },
-  data() {
+  data: () => {
     const schema = yup.object({
       login: yup.number().integer().required().min(1).max(999999999999999),
       name: yup.string().min(5, "Name must be at least 5 characters").max(45, "Name must be at least 45 characters"),
@@ -102,11 +102,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      const device = {
+      const device = /*{
         login: this.login.trim(),
         name: this.name.trim(),
         password: this.password.trim(),
-      }
+      }*/
 
       api.post('device/add-device', device).then(
         (res) => {
