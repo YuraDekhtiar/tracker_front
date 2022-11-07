@@ -72,7 +72,7 @@ export default {
     Field,
     ErrorMessage
   },
-  data() {
+  data:() => {
     const schema = yup.object({
       username: yup.string().required('Username is required').min(3).max(20),
       email: yup.string().required('Email is required').email().max(45),
