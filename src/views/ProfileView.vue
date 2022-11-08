@@ -35,11 +35,19 @@
                 </ul>
               </div>
               <hr/>
-              <form v-on:submit.prevent="handleChangePass">
-                <div class="fs-5 text" >Change password:</div>
-                <input type="password" class="form-control mt-1" name="oldPass" placeholder="Old password">
-                <input type="password" class="form-control mt-2" name="newPass" placeholder="New password">
-                <input type="password" class="form-control mt-1" name="confNewPass" placeholder="Confirm new password">
+              <vForm @submit="onSubmit" :validation-schema="schema">
+                <Field class="form-control " placeholder="old password"  name="oldPassword" type="password" v-model="oldPassword" />
+                <div>
+                  <ErrorMessage class="" name="oldPassword"/>
+                </div>
+                <Field class="form-control mt-2" placeholder="new password" name="newPassword" type="password" v-model="newPassword" />
+                <div>
+                  <ErrorMessage class="" name="newPassword"/>
+                </div>
+                <Field class="form-control mt-2" placeholder="confirm password" name="newConfPassword" type="password" v-model="newConfPassword" />
+                <div>
+                  <ErrorMessage class="" name="newConfPassword"/>
+                </div>
                 <div
                   v-if="message"
                   class="alert mt-2"
@@ -47,8 +55,8 @@
                 >
                   {{ message }}
                 </div>
-                <button class="btn btn-primary mt-3" type="submit">Save</button>
-              </form>
+                <button class="btn btn-primary mt-2" type="submit">Save</button>
+              </vForm>
               <hr/>
             </div>
         </div>
@@ -58,14 +66,34 @@
 
 <script>
 import api from "@/api/api";
+import {Form as vForm, Field, ErrorMessage} from 'vee-validate';
+import * as yup from "yup";
 
 export default {
-  data() {
+  components: {
+    vForm,
+    Field,
+    ErrorMessage
+  },
+  data: () => {
+    const schema = yup.object({
+      oldPassword: yup.string().required('Old password is required'),
+      newPassword: yup.string().required('Password is required').min(8, "Password must be at least 8 characters")
+        .max(20, "Password must be at most 20 characters"),
+      newConfPassword: yup.string()
+        .oneOf([yup.ref('newPassword'), null], 'Confirm password must match Password').required('Confirm password is required').min(8, "Confirm password must be at least 8 characters")
+        .max(20, "Confirm password must be at most 20 characters"),
+    });
     return {
+      schema,
       loading: false,
       data: Object,
       message: "",
       successful: false,
+      oldPassword: "",
+      newPassword: "",
+      newConfPassword: ""
+
     }
   },
   computed: {
@@ -77,6 +105,27 @@ export default {
     this.data = await api.get('/profile').then(r => r.data.result);
   },
   methods: {
+    async onSubmit() {
+      this.loading = true;
+      this.message = "";
+
+      const passwords = {
+        oldPassword: this.oldPassword.trim(),
+        newPassword: this.newPassword.trim(),
+        confNewPassword: this.newConfPassword.trim(),
+      }
+      await api.put('/profile/change-pass', passwords).then(
+        () => {
+          this.message = "Success";
+          this.successful = true;
+        },
+        (error) => {
+          this.message = error.response.data.message
+          this.successful = false;
+        }
+      );
+    },
+
     async handleChangePass(submitEvent) {
       const minLength = 8;
       this.loading = true;

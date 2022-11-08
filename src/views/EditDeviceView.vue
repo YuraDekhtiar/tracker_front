@@ -64,7 +64,7 @@ export default {
     Field,
     ErrorMessage
   },
-  data() {
+  data: () => {
     const schema = yup.object({
       id: yup.number().integer().required().min(1).max(999999999999999),
       login: yup.number().integer().required().min(1).max(999999999999999),
