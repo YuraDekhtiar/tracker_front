@@ -8,9 +8,12 @@
 
   <div v-else class="container">
     <h2 class="text-center">Devices</h2>
-
     <RouterLink v-if="isAdmin" class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
-    <table class="table">
+    <div v-if="errorResponse" class="alert alert-danger" role="alert">
+      {{errorMessage}}
+    </div>
+    <div v-else>
+      <table class="table">
       <thead>
       <tr>
         <th scope="col">#</th>
@@ -38,6 +41,7 @@
       </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </template>
 
@@ -50,6 +54,8 @@ export default {
     return {
       isLoading: Boolean,
       devices: Array,
+      errorMessage: "",
+      errorResponse: false
     }
   },
   computed: {
@@ -69,8 +75,12 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.devices = await api
-        .get('devices').then(r => r.data.result)
+      this.devices = await api.get('/devices').then(
+        r => r.data.result,
+        (error) => {
+          this.errorResponse = true;
+          this.errorMessage = `${error.response.data.status || ""}  ${error.response.data.message || "Not connection to backend"}`;
+       });
     },
     async deleteHandler(id) {
       await api.delete(`/device/delete?id=${id}`)

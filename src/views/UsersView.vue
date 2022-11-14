@@ -66,25 +66,26 @@ export default {
       return false;
     }
   },
-
   async created() {
     if (!this.isAdmin) {
       await this.$router.push("/404");
       return ;
     }
-    this.users = await api.get('/users').then(
-      r => r.data.result,
-      (error) => {
-        this.errorResponse = true;
-        this.errorMessage = `${error.response.data.status || ""}  ${error.response.data.message || "Not internet connecting"}`;
-      }
-    );
+    await this.fetchData();
     this.isLoading = false;
   },
   methods: {
     async deleteHandler(id) {
       await api.delete(`/users/delete?id=${id}`)
       this.users = this.users.filter(u => u.id !== id)
+    },
+    async fetchData() {
+      this.users = await api.get('/users').then(
+        r => r.data.result,
+        (error) => {
+          this.errorResponse = true;
+          this.errorMessage = `${error.response.data.status || ""}  ${error.response.data.message || "Not connection to backend"}`;
+        });
     }
   }
 }
