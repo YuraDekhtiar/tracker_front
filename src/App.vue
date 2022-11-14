@@ -13,7 +13,7 @@
     </main>
     <footer class="footer py-3 my-1 border-top">
       <div class="text-center">
-        <span class="mb-3 mb-md-0 text-muted">© {{getCurrentYear()}} Dekhtiar, Inc</span>
+        <span class="mb-3 mb-md-0 text-muted">© {{getCurrentYear()}} DK, Inc</span>
       </div>
     </footer>
   </div>
