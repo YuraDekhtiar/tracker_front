@@ -11,15 +11,15 @@ const setup = (store) => {
             return config;
         },
         (error) => {
-            return Promise.reject(error)
+            return Promise.reject(error);
         }
     );
 
     axiosInstance.interceptors.response.use(
         (res) => {
-            return res
+            return res;
         },
-        async (err) => {
+      async (err) => {
             const originalConfig = err.config;
 
             if(originalConfig.url !== '/auth/login' && err.response) {
