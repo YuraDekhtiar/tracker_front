@@ -69,8 +69,9 @@ export default {
   async created() {
     if (!this.isAdmin) {
       await this.$router.push("/404");
-      return ;
     }
+  },
+  async beforeMount() {
     await this.fetchData();
     this.isLoading = false;
   },
@@ -84,7 +85,7 @@ export default {
         r => r.data.result,
         (error) => {
           this.errorResponse = true;
-          this.errorMessage = `${error.response.data.status || ""}  ${error.response.data.message || "Not connection to backend"}`;
+          this.errorMessage = `${error.response?.data.status || ""}  ${error.response?.data.message || "Unknown error"}`;
         });
     }
   }

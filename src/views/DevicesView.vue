@@ -79,7 +79,7 @@ export default {
         r => r.data.result,
         (error) => {
           this.errorResponse = true;
-          this.errorMessage = `${error.response.data.status || ""}  ${error.response.data.message || "Not connection to backend"}`;
+          this.errorMessage = `${error.response?.data.status || ""}  ${error.response?.data.message || "Unknown error"}`;
        });
     },
     async deleteHandler(id) {
