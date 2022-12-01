@@ -1,6 +1,6 @@
 <script setup>
   import dateFilter from "@/commons/date.filter";
-  import vPreloader from "@/components/Preloader";
+  import VPreloader from "@/components/Preloader.vue";
 </script>
 
 <template>
@@ -30,7 +30,13 @@
         <td>{{ item.login }}</td>
         <td>{{ item.name }}</td>
         <td>{{dateFilter(item.time_last_connection)}}</td>
-        <td>{{ item.is_online }}</td>
+        <td>
+          <BootstrapIcon
+            icon="record-fill"
+            size="2x"
+            :color="isOnline(item.is_online)"
+          />
+        </td>
         <td>
           <span v-if="isAdmin">
             <button class="btn btn-danger me-2" title="Delete" @click="deleteHandler(item.id)">X</button>
@@ -85,6 +91,9 @@ export default {
     async deleteHandler(id) {
       await api.delete(`/device/delete?id=${id}`)
       this.devices = this.devices.filter(d => d.id !== id)
+    },
+    isOnline(status) {
+      return status ? "green" : "red"
     }
   }
 }
