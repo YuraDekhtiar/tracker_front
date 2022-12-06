@@ -1,6 +1,6 @@
 <script setup>
   import dateFilter from "@/commons/date.filter";
-  import vPreloader from "@/components/Preloader";
+  import VPreloader from "@/components/Preloader.vue";
 </script>
 
 <template>
@@ -19,7 +19,7 @@
           <div class="card-header">SPEED: {{responseData.speed}}</div>
           <div class="card-header">Battery: {{responseData.battery_level}} %</div>
           <div class="card-header">Temp: {{responseData.temp}} &#8451;</div>
-          <div class="card-header">Is charging: {{responseData.is_charging === 1 ? true : false}} </div>
+          <div class="card-header">Is charging: {{Boolean(responseData.is_charging)}} </div>
           <div class="card-header">
             <button type="button" class="btn btn-success" @click="getCenter">Знайти</button>
           </div>
@@ -63,7 +63,6 @@ export default {
   data() {
     return {
       isLoading: true,
-      time_last_connection: Object,
       center: {
         lat: 0.0,
         lng: 0.0
@@ -102,7 +101,6 @@ export default {
         try {
           await Promise.all([
             this.responseData = await api.get(`locations?id=${id}`).then(r => r.data.result[0]),
-              this.time_last_connection = await api.get(`devices/status?id=${id}`).then(r => r.data.result[0])
           ])
         } catch (e) {
           console.log(e)
