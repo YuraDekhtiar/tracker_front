@@ -26,11 +26,12 @@
         </div>
       </div>
       <div class="col-lg-9">
-        <GMapMap class="map"
-                 :center="center"
-                 :zoom="16"
-                 map-type-id="terrain"
-                 :options="{
+        <GMapMap
+          class="map"
+          :center="center"
+          :zoom="16"
+          map-type-id="terrain"
+          :options="{
             zoomControl: true,
             mapTypeControl: true,
             scaleControl: true,
