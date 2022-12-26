@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-md-3 info">
         <div class="card info">
-          <div class="card-header">ID: {{responseData.device_id}}</div>
+          <div class="card-header">NAME: <strong>{{responseData.name}}</strong></div>
           <div class="card-header">DATETIME: {{
               dateFilter(responseData.time)
             }}
