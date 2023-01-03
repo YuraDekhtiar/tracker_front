@@ -58,6 +58,7 @@ import api from "@/api/api";
 export default {
   data() {
     return {
+      title: "Devices",
       isLoading: Boolean,
       devices: Array,
       errorMessage: "",
@@ -76,7 +77,8 @@ export default {
     }
   },
   async beforeMount() {
-    await this.fetchData()
+    document.title = this.title;
+    await this.fetchData();
     this.isLoading = false;
   },
   methods: {

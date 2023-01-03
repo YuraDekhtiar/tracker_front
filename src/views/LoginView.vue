@@ -28,6 +28,7 @@ export default {
   components: {Alert},
   data() {
     return {
+      title: "GPS Tracker",
       loading: false,
       message: "",
       username: "",
@@ -39,6 +40,9 @@ export default {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     },
+  },
+  async beforeMount() {
+    document.title = this.title;
   },
   created() {
     if (this.loggedIn) {

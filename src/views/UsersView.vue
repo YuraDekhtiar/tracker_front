@@ -1,6 +1,6 @@
 <script setup>
   import dateFilter from "@/commons/date.filter";
-  import vPreloader from "@/components/Preloader";
+  import VPreloader from "@/components/Preloader.vue";
 </script>
 
 <template>
@@ -49,6 +49,7 @@ import api from "@/api/api";
 export default {
   data() {
     return {
+      title: "Users",
       isLoading: Boolean,
       users: Array,
       errorMessage: "",
@@ -72,6 +73,7 @@ export default {
     }
   },
   async beforeMount() {
+    document.title = this.title;
     await this.fetchData();
     this.isLoading = false;
   },
