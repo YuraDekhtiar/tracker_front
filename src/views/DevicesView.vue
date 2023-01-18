@@ -131,17 +131,7 @@ export default {
           width: '150px',
           sortable: false,
           tdClass: 'text-center',
-
         },
-      ],
-      rows: [
-        { "id": 22, "login": 2, "name": "AKP-11 | LANOS |", "time_last_connection": "2022-11-25T23:55:28.000Z", "is_online": false },
-        { "id": 30, "login": 1, "name": "test1", "time_last_connection": "2022-12-06T08:42:30.000Z", "is_online": false },
-        { "id": 31, "login": 12, "name": "AKP-12 | MAZDA |", "time_last_connection": "2023-01-03T13:29:29.000Z", "is_online": true },
-        { "id": 32, "login": 9, "name": "AKP-9 | CERATO |", "time_last_connection": "2023-01-03T13:29:29.000Z", "is_online": true },
-        { "id": 33, "login": 13, "name": "AKP-13 | LADA |", "time_last_connection": "2023-01-03T13:29:25.000Z", "is_online": true },
-        { "id": 34, "login": 6, "name": "AKP-6 | MUSTANG |", "time_last_connection": "2023-01-03T13:29:29.000Z", "is_online": true },
-        { "id": 37, "login": 14, "name": "AKP-14 | test |", "time_last_connection": "2023-01-02T15:03:14.000Z", "is_online": false }
       ],
     }
   },
@@ -171,12 +161,8 @@ export default {
         });
     },
     async deleteHandler(id) {
-      console.log(id)
-      /*
       await api.delete(`/device/delete?id=${id}`)
       this.devices = this.devices.filter(d => d.id !== id)
-      */
-
     },
     isOnline(status) {
       return status ? "green" : "red"
