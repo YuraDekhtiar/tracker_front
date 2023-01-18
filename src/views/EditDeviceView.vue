@@ -1,23 +1,18 @@
 <script setup>
-  import vPreloader from "@/components/Preloader";
+  import VPreloader from "@/components/Preloader.vue";
 </script>
 <template>
   <vPreloader v-if="isLoading"/>
-
   <div v-else class="container">
-    <div v-if="errorResponse" class="alert alert-danger" role="alert">
-      {{ errorMessage }}
+    <div
+      v-if="message"
+      class="alert mt-2"
+      :class="successful ? 'alert-success' : 'alert-danger'"
+    >
+      {{ message }}
     </div>
-    <div v-else>
-      <div
-        v-if="message"
-        class="alert mt-2"
-        :class="successful ? 'alert-success' : 'alert-danger'"
-      >
-        {{ message }}
-      </div>
-      <div class="col-md-12  col-lg-8 d-block mx-auto mb-4" v-if="!successful">
-        <h2 class="text-center">Edit device</h2>
+    <div v-if="successful" class="col-md-12  col-lg-8 d-block mx-auto mb-4">
+      <h2 class="text-center">Edit device</h2>
         <vForm @submit="onSubmit" :validation-schema="schema">
           <label for="id" class="form-label">id</label>
           <Field class="form-control" name="id" type="text" v-model="id" readonly/>
@@ -47,7 +42,6 @@
           <hr />
           <button class="float-end btn btn-success">Save</button>
         </vForm>
-      </div>
     </div>
   </div>
 </template>
@@ -78,7 +72,6 @@ export default {
     return {
       schema,
       isLoading: true,
-      errorMessage: "",
       errorResponse: false,
       id: "",
       login: "",
@@ -104,9 +97,6 @@ export default {
     if (!this.isAdmin) {
       this.$router.push("/404");
     }
-  },
-  mounted() {
-    this.isLoading = false
   },
   async beforeMount() {
     await this.fetchData();
@@ -143,7 +133,7 @@ export default {
             this.id = res.data.result.id;
             this.login = res.data.result.login;
             this.name = res.data.result.name;
-
+            this.successful = true;
           },
           (error) => {
             this.message = error.response.data.message;
