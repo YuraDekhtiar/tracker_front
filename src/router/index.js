@@ -7,8 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/DevicesView')
-
+      component: () => import('../views/DevicesView.vue')
     },
     {
       path: '/map/:id',
