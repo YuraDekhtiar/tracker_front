@@ -5,7 +5,6 @@
 
 <template>
   <vPreloader v-if="isLoading"/>
-
   <div v-else class="container">
     <h2 class="text-center">Devices</h2>
     <RouterLink v-if="isAdmin" class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
