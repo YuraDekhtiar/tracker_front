@@ -96,7 +96,6 @@ export default {
           tdClass: 'text-center',
         }
       ],
-
     }
   },
   computed: {
