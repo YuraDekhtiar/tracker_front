@@ -1,5 +1,6 @@
 <script setup>
-import VPreloader from "@/components/Preloader.vue";
+  import VPreloader from "@/components/Preloader.vue";
+  import dateFilter from "@/commons/date.filter";
 </script>
 
 <template>
@@ -15,7 +16,6 @@ import VPreloader from "@/components/Preloader.vue";
         compactMode
         :columns="columns"
         :rows="devices"
-
         :line-numbers="true"
         :select-options="{
           enabled: true,
@@ -77,6 +77,9 @@ import VPreloader from "@/components/Preloader.vue";
               />
             </RouterLink>
           </span>
+          <span v-else-if="props.column.field === 'time_last_connection'">
+            {{ dateFilter(props.row.time_last_connection) }}
+          </span>
           <span v-else>
             {{props.formattedRow[props.column.field]}}
           </span>
@@ -113,9 +116,7 @@ export default {
         {
           label: 'Last connection',
           field: 'time_last_connection',
-          type: 'date',
-          dateInputFormat: 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'',
-          dateOutputFormat: 'dd/MM/yyyy HH:mm:ss',
+          type: 'string',
           tdClass: 'text-start',
         },
         {
