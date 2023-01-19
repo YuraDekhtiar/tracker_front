@@ -81,10 +81,7 @@ export default {
         {
           label: 'Last visit',
           field: 'last_visit',
-          type: 'date',
-          dateInputFormat: 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'',
-          dateOutputFormat: 'dd/MM/yyyy HH:mm:ss',
-          tdClass: 'text-start',
+          type: 'string',
         },
         {
           label: 'Roles',
