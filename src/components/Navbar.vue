@@ -20,7 +20,7 @@
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
+          <li class="nav-item dropstart">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
