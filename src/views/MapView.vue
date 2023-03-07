@@ -68,6 +68,7 @@
 
 <script>
 import api from "@/api/api";
+import {copyToClipboard} from "@/commons/copyToClipboard";
 export default {
   name: 'App',
   data() {
@@ -143,8 +144,7 @@ export default {
       return charging ? "battery-charging" : "battery-full"
     },
     sharedLink(lat, lng) {
-      navigator.clipboard
-        .writeText(`https://www.google.com/maps/?q=${lat},${lng}`)
+      copyToClipboard(`https://www.google.com/maps/?q=${lat},${lng}`)
         .then(() => {
           console.log("Success clipboard")
         })
