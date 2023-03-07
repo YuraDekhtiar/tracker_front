@@ -13,20 +13,25 @@
       <div class="row">
         <div class="col-md-3 info">
           <div class="card info">
-            <div class="card-header">NAME: <strong>{{responseData.name}}</strong></div>
-            <div class="card-header">DATETIME: {{
-                dateFilter(responseData.time)
-              }}
-            </div>
-            <div class="card-header">LAT: {{responseData.coords.x}}</div>
-            <div class="card-header">LNG: {{responseData.coords.y}}</div>
-            <div class="card-header">SPEED: {{responseData.speed}}</div>
-            <div class="card-header">Battery: {{responseData.battery_level}} %</div>
-            <div class="card-header">Temp: {{responseData.temp}} &#8451;</div>
-            <div class="card-header">Is charging: {{Boolean(responseData.is_charging)}} </div>
+            <button type="button" class="btn btn-primary m-2" @click="sharedLink(responseData.coords.x, responseData.coords.y)">Скопіювати посилання</button>
+
             <div class="card-header">
-              <button type="button" class="btn btn-success" @click="getCenter">Знайти</button>
+              <BootstrapIcon icon="phone-fill" size="2x"/> <strong>{{responseData.name}}</strong>
             </div>
+            <div class="card-header">
+                <BootstrapIcon icon="calendar" size="2x"/> {{ dateFilter(responseData.time) }}
+            </div>
+            <div class="card-header">
+              <BootstrapIcon icon="geo-alt" size="2x"/> LAT: {{responseData.coords.x}} LNG: {{responseData.coords.y}}
+            </div>
+            <div class="card-header">
+              <BootstrapIcon icon="thermometer" size="2x"/> {{responseData.temp}} &#8451;
+              &emsp;
+              <BootstrapIcon icon="speedometer" size="2x"/> {{parseInt(responseData.speed)}} km/h
+              &emsp;
+              <BootstrapIcon :icon="isCharging(responseData.is_charging)" size="2x"/> {{responseData.battery_level}}%
+            </div>
+            <button type="button" class="btn btn-success m-2" @click="getCenter">Знайти</button>
           </div>
         </div>
         <div class="col-lg-9">
@@ -67,6 +72,7 @@ export default {
   name: 'App',
   data() {
     return {
+      title: "Map",
       isLoading: true,
       center: {
         lat: 0.0,
@@ -76,8 +82,8 @@ export default {
       markers: [
         {
           position: {
-            lat: 51.093048,
-            lng: 6.84212,
+            lat: 0.0,
+            lng: 0.0,
           },
         },
       ],
@@ -90,6 +96,7 @@ export default {
     clearInterval(this.refreshIntervalId)
   },
   async beforeMount() {
+    document.title = this.title
     if(this.$route.params.id !== 'undefined') {
       this.refreshIntervalId = setInterval(async () => {
         await this.fetchData(this.$route.params.id)
@@ -104,6 +111,8 @@ export default {
         ) {
           this.markers[0].position.lat = this.responseData?.coords.x;
           this.markers[0].position.lng = this.responseData?.coords.y;
+          document.title = `${this.responseData.name}`;
+          this.getCenter()
         }
       }, 5000)
     }
@@ -129,6 +138,19 @@ export default {
     getCenter() {
       this.center.lat = this.responseData?.coords.x;
       this.center.lng = this.responseData?.coords.y;
+    },
+    isCharging(charging) {
+      return charging ? "battery-charging" : "battery-full"
+    },
+    sharedLink(lat, lng) {
+      navigator.clipboard
+        .writeText(`https://www.google.com/maps/?q=${lat},${lng}`)
+        .then(() => {
+          console.log("Success clipboard")
+        })
+        .catch(() => {
+          console.log("Error clipboard")
+        });
     }
   }
 }

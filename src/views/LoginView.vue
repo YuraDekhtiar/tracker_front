@@ -28,7 +28,7 @@ export default {
   components: {Alert},
   data() {
     return {
-      title: "GPS Tracker",
+      title: "GPS Tracker - Login",
       loading: false,
       message: "",
       username: "",
