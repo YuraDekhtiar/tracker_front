@@ -27,3 +27,4 @@ createApp(App)
   .use(VueGoodTablePlugin)
   .component('BootstrapIcon', BootstrapIcon)
   .mount('#app')
+
