@@ -126,11 +126,12 @@ export default {
     },
     async fetchData() {
       this.users = await api.get('/users').then(
-        r => r.data.result,
+        r => r.data.result.users,
         (error) => {
           this.errorResponse = true;
           this.errorMessage = `${error.response?.data.status || ""}  ${error.response?.data.message || "Unknown error"}`;
         });
+      console.log(this.users)
     }
   }
 }

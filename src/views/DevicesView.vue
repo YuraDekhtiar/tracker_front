@@ -31,6 +31,10 @@
           enabled: true,
           initialSortBy: {field: 'login', type: 'asc'}
         }"
+        :pagination-options="{
+          enabled: true,
+          perPage: 5,
+        }"
       >
         <template #selected-row-actions>
           <span v-if="isAdmin">
@@ -155,7 +159,7 @@ export default {
   methods: {
     async fetchData() {
       this.devices = await api.get('/devices').then(
-        r => r.data.result,
+        r => r.data.result.devices,
         (error) => {
           this.errorResponse = true;
           this.errorMessage = `${error.response?.data.status || ""}  ${error.response?.data.message || "Unknown error"}`;
