@@ -33,7 +33,7 @@
         }"
         :pagination-options="{
           enabled: true,
-          perPage: 5,
+          perPage: 10,
         }"
       >
         <template #selected-row-actions>
