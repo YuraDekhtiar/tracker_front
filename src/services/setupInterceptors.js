@@ -1,7 +1,6 @@
 import axiosInstance from '../api/api';
 import tokenService from './token.service'
 import router from "@/router";
-import axios from "axios";
 
 const setup = (store) => {
     axiosInstance.interceptors.request.use(
