@@ -22,6 +22,5 @@ const authService = {
         })
       return tokenService.removeUser();
     },
-
 }
-export default authService
+export default authService;
