@@ -36,9 +36,6 @@
 
 <script>
 
-import VDeleteButton from "@/components/buttons/DeleteButton.vue";
-import VCancelButton from "@/components/buttons/CancelButton.vue";
-
 export default {
   name: "vShortDeviceTable",
 
