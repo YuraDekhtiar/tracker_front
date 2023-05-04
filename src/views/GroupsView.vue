@@ -1,6 +1,5 @@
 <script setup>
   import VPreloader from "@/components/Preloader.vue";
-  import dateFilter from "@/commons/date.filter";
 </script>
 
 <template>
