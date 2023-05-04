@@ -15,6 +15,9 @@
           <li class="nav-item" v-if="isAdmin" >
             <RouterLink class="nav-link" to="/users">Users</RouterLink>
           </li>
+          <li class="nav-item" v-if="isAdmin" >
+            <RouterLink class="nav-link" to="/groups">Groups</RouterLink>
+          </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/map">Map</RouterLink>
           </li>
