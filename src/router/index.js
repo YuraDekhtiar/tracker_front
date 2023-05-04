@@ -10,6 +10,16 @@ const router = createRouter({
       component: () => import('../views/DevicesView.vue')
     },
     {
+      path: '/groups',
+      name: 'groups',
+      component: () => import('../views/GroupsView.vue')
+    },
+    {
+      path: '/edit-group/:id',
+      name: 'groupId',
+      component: () => import('../views/EditGroupView.vue')
+    },
+    {
       path: '/map/:id',
       name: 'mapId',
       component: () => import('../views/MapView.vue')
