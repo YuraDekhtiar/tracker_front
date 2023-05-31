@@ -1,21 +1,28 @@
 <script setup>
-  import VPreloader from "@/components/Preloader.vue";
+import VPreloader from "@/components/Preloader.vue";
+import VIconDeleteButton from "@/components/buttons/IconDeleteWithModalConf.vue";
+import VAddButton from "@/components/buttons/AddButton.vue";
+import VCreateGroupModal from "@/components/modals/CreateGroupModal.vue";
 </script>
 
 <template>
   <vPreloader v-if="isLoading"/>
   <div v-else class="container">
-    <RouterLink v-if="isAdmin" class="float-end btn btn-info" :to="`/add-device`">Add group</RouterLink>
+    <!--    <RouterLink v-if="onlyAdmin" class="float-end btn btn-info" :to="`/add-device`">Add group</RouterLink>-->
+    <div class="d-flex justify-content-end">
+      <v-create-group-modal :modalShow="showModal" @click-confirm="fetchData"/>
+      <v-add-button text="Create group" @click="showModal = !showModal"/>
+    </div>
     <h2 class="text-center">Groups</h2>
     <div v-if="errorResponse" class="alert alert-danger" role="alert">
-      {{errorMessage}}
+      {{ errorMessage }}
     </div>
     <div v-else>
       <vue-good-table
         compactMode
         :columns="columns"
         :rows="groups"
-        :line-numbers="true"
+        line-numbers
         :select-options="{
           enabled: true,
           selectionInfoClass: 'selection-info',
@@ -33,28 +40,11 @@
           enabled: true,
           perPage: 10,
         }">
-        <template #selected-row-actions>
-          <span v-if="isAdmin">
-            <button class="btn" title="Delete" @click="deleteHandler(0)">
-              <BootstrapIcon
-                icon="trash3-fill"
-                size="2x"
-                color="red"
-              />
-            </button>
-          </span>
-        </template>
-
         <template #table-row="props">
-          <span v-if="props.column.field === 'actions'" >
-            <span v-if="isAdmin">
-              <button class="btn p-0 me-2" title="Delete" @click="deleteHandler(props.row.id)">
-                <BootstrapIcon
-                  icon="trash3-fill"
-                  size="2x"
-                  color="red"
-                />
-              </button>
+          <span v-if="props.column.field === 'actions'">
+            <span v-if="onlyAdmin">
+              <v-icon-delete-button :itemName="props.row.name" @deleteAction="deleteHandler(props.row.id)"/>
+              <span class="ms-2"/>
               <RouterLink class="me-2" :to="`/edit-group/${props.row.id}`" title="Edit">
                 <BootstrapIcon
                   icon="pencil-fill"
@@ -69,16 +59,18 @@
     </div>
   </div>
 </template>
-
 <script>
 
 import api from "@/api/api";
+import vToast from "@/commons/vToast";
+
 export default {
   data() {
     return {
       title: "Groups",
       searchValue: "",
       isLoading: Boolean,
+      showModal: false,
       groups: Array,
       errorMessage: "",
       errorResponse: false,
@@ -105,14 +97,8 @@ export default {
     }
   },
   computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-    isAdmin() {
-      if (this.currentUser && this.currentUser['roles']) {
-        return this.currentUser['roles'].includes('admin');
-      }
-      return false;
+    onlyAdmin() {
+      return this.$store.state.auth.user.isAdmin
     }
   },
   async beforeMount() {
@@ -122,7 +108,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.groups = await api.get('/groups').then(
+      this.groups = await api.get('/group/groups').then(
         r => r.data.result.groups,
         (error) => {
           this.errorResponse = true;
@@ -130,8 +116,15 @@ export default {
         });
     },
     async deleteHandler(id) {
-      //await api.delete(`/device/delete?id=${id}`)
-      //this.devices = this.devices.filter(d => d.id !== id)
+      await api.delete(`/group/delete?id=${id}`).then(
+        () => {
+          vToast.success(this, 'Deleted success')
+          this.groups = this.groups.filter(item => item.id !== id)
+        },
+        (error) => {
+          vToast.error(this, `${error.response.data.message}. Status: ${error.response.data.status} `)
+        }
+      )
     },
     isOnline(status) {
       return status ? "green" : "red"
