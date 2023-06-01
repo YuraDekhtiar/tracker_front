@@ -1,6 +1,5 @@
 <script setup>
   import { RouterLink } from 'vue-router';
-  import onlyAdmin from '@/commons/only_admin';
 </script>
 <template>
   <nav class="navbar  navbar-expand-lg navbar-light bg-light ">
@@ -54,6 +53,17 @@ export default {
     logoutHandler: Function,
     userName: String,
   },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    onlyAdmin() {
+      if (this.currentUser && this.currentUser['roles']) {
+        return this.currentUser['roles'].includes('admin');
+      }
+      return false;
+    }
+  }
 }
 </script>
 
