@@ -1,4 +1,4 @@
-export function copyToClipboard(text) {
+export function copyClipboard(text) {
   // navigator clipboard api needs a secure context (https)
   if (navigator.clipboard && window.isSecureContext) {
     // navigator clipboard api method'

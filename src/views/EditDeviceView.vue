@@ -2,7 +2,7 @@
   import VPreloader from "@/components/Preloader.vue";
 </script>
 <template>
-  <vPreloader v-if="isLoading"/>
+  <v-preloader v-if="isLoading"/>
   <div v-else class="container">
     <div
       v-if="message"
@@ -51,6 +51,7 @@
 import * as yup from "yup";
 import {Form as vForm, Field, ErrorMessage} from 'vee-validate';
 import api from "@/api/api";
+import onlyAdmin from "@/commons/only_admin";
 
 export default {
   components: {
@@ -82,19 +83,8 @@ export default {
       successful: false,
     }
   },
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-    isAdmin() {
-      if (this.currentUser && this.currentUser['roles']) {
-        return this.currentUser['roles'].includes('admin');
-      }
-      return false;
-    }
-  },
   created() {
-    if (!this.isAdmin) {
+    if (!onlyAdmin) {
       this.$router.push("/404");
     }
   },

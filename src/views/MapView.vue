@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <vPreloader v-if="isLoading"/>
+  <v-preloader v-if="isLoading"/>
   <div v-else class="container-fluid" >
     <div v-if="errorResponse" class="alert alert-danger container" role="alert">
       {{errorMessage}}
@@ -68,7 +68,7 @@
 
 <script>
 import api from "@/api/api";
-import {copyToClipboard} from "@/commons/copyToClipboard";
+import {copyClipboard} from "@/commons/copyClipboard";
 export default {
   name: 'App',
   data() {
@@ -144,7 +144,7 @@ export default {
       return charging ? "battery-charging" : "battery-full"
     },
     sharedLink(lat, lng) {
-      copyToClipboard(`https://www.google.com/maps/?q=${lat},${lng}`)
+      copyClipboard(`https://www.google.com/maps/?q=${lat},${lng}`)
         .then(() => {
           console.log("Success clipboard")
         })

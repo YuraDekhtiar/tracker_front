@@ -1,12 +1,13 @@
 <script setup>
   import VPreloader from "@/components/Preloader.vue";
   import dateFilter from "@/commons/date.filter";
+  import onlyAdmin from "@/commons/only_admin"
 </script>
 
 <template>
-  <vPreloader v-if="isLoading"/>
+  <v-preloader v-if="isLoading"/>
   <div v-else class="container">
-    <RouterLink v-if="isAdmin" class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
+    <RouterLink v-if="onlyAdmin" class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
     <h2 class="text-center">Devices</h2>
     <div v-if="errorResponse" class="alert alert-danger" role="alert">
       {{errorMessage}}
@@ -16,7 +17,7 @@
         compactMode
         :columns="columns"
         :rows="devices"
-        :line-numbers="true"
+        line-numbers
         :select-options="{
           enabled: true,
           selectionInfoClass: 'selection-info',
@@ -37,7 +38,7 @@
         }"
       >
         <template #selected-row-actions>
-          <span v-if="isAdmin">
+          <span v-if="onlyAdmin">
             <button class="btn" title="Delete" @click="deleteHandler(0)">
               <BootstrapIcon
                 icon="trash3-fill"
@@ -57,7 +58,7 @@
             />
           </span>
           <span v-else-if="props.column.field === 'actions'" >
-            <span v-if="isAdmin">
+            <span v-if="onlyAdmin">
               <button class="btn p-0 me-2" title="Delete" @click="deleteHandler(props.row.id)">
                 <BootstrapIcon
                   icon="trash3-fill"
@@ -140,17 +141,6 @@ export default {
       ],
     }
   },
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-    isAdmin() {
-      if (this.currentUser && this.currentUser['roles']) {
-        return this.currentUser['roles'].includes('admin');
-      }
-      return false;
-    }
-  },
   async beforeMount() {
     document.title = this.title;
     await this.fetchData();
@@ -158,7 +148,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.devices = await api.get('/devices').then(
+      this.devices = await api.get(`/device/devices`).then(
         r => r.data.result.devices,
         (error) => {
           this.errorResponse = true;

@@ -1,12 +1,11 @@
 <template>
   <div class="form-floating mb-3">
-    <b-form-textarea
+    <b-form-input
       id="floatingInput"
       :state="inputState"
       :placeholder="placeholder"
       v-model="input"
       :onblur="inputUpdate"
-      rows="3"
       trim
     />
     <label for="floatingInput">{{ placeholder }}</label>
@@ -19,7 +18,7 @@
 <script>
 
 export default {
-  name: "vDescriptionInput",
+  name: "vBaseInput",
   data() {
     return {
       input: "",
@@ -51,3 +50,6 @@ export default {
 }
 </script>
 
+<style scoped>
+
+</style>

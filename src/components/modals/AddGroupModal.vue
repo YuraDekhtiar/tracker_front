@@ -7,35 +7,25 @@
       :ok-variant="okVariant"
       :ok-title="okText"
       @ok="ok"
+      v-if="show"
     >
       <vue-good-table
         compactMode
-        :columns="columns"
+        :columns="settings.columns"
         :rows="data"
-        :line-numbers="true"
+        line-numbers
         :search-options="{
               placeholder: 'Search',
               enabled: true,
             }"
         :sort-options="{
               enabled: true,
-              initialSortBy: {field: 'name', type: 'asc'}
+              initialSortBy: settings.initialSortBy
             }"
       >
-        <template #selected-row-actions>
-          <BootstrapIcon
-            icon="trash3-fill"
-            size="2x"
-            color="red"
-          />
-        </template>
         <template #table-row="props">
             <span v-if="props.column.field === 'actions'">
-                  <BootstrapIcon
-                    icon="trash3-fill"
-                    size="2x"
-                    color="red"
-                  />
+              <v-icon-add-button @on-click="onClick(props.row.id)" />
             </span>
         </template>
       </vue-good-table>
@@ -45,8 +35,10 @@
 
 <script>
 
+import VIconAddButton from "@/components/buttons/IconAddButton";
 export default {
-  name: "vAddToGroupModal",
+  name: "vAddGroupModal",
+  components: {VIconAddButton},
   data() {
     return {
       show: false,
@@ -62,15 +54,20 @@ export default {
     },
     close() {
       this.show = false;
+    },
+    onClick(id) {
+      this.$emit('clickAdd', id);
     }
   },
   event: {
-    clickConfirm: null
+    clickConfirm: null,
+    clickAdd: null
+
   },
   props: {
     modalShow: false,
-    data: Object,
-    columns: Object
+    data: null,
+    settings: Object
   },
   watch: {
     modalShow() {

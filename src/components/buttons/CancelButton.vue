@@ -8,7 +8,7 @@
 export default {
   name: "vCancelButton",
   methods: {
-    onClick () {
+    onClick() {
       this.$emit('click')
     }
   },

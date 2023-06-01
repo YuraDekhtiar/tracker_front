@@ -1,6 +1,8 @@
 <template>
   <b-button variant="primary" @click="onClick">
-    {{ text }}
+    <slot>
+      {{ text }}
+    </slot>
   </b-button>
 </template>
 
@@ -8,7 +10,7 @@
 export default {
   name: "vPrimaryButton",
   methods: {
-    onClick () {
+    onClick() {
       this.$emit('click')
     }
   },

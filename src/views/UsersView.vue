@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <vPreloader v-if="isLoading"/>
+  <v-preloader v-if="isLoading"/>
   <div v-else class="container">
     <RouterLink class="float-end btn btn-info" :to="`/create-new-user`">Create user</RouterLink>
     <h2 class="text-center">Users</h2>
@@ -16,7 +16,7 @@
           compactMode
           :columns="columns"
           :rows="users"
-          :line-numbers="true"
+          line-numbers
           :select-options="{
             enabled: true,
             selectionInfoClass: 'selection-info',
@@ -56,7 +56,7 @@
 
 <script>
 import api from "@/api/api";
-
+import onlyAdmin from "@/commons/only_admin";
 export default {
   data() {
     return {
@@ -102,15 +102,9 @@ export default {
     currentUser() {
       return this.$store.state.auth.user;
     },
-    isAdmin() {
-      if (this.currentUser && this.currentUser['roles']) {
-        return this.currentUser['roles'].includes('admin');
-      }
-      return false;
-    }
   },
   async created() {
-    if (!this.isAdmin) {
+    if (!onlyAdmin) {
       await this.$router.push("/404");
     }
   },
@@ -131,7 +125,6 @@ export default {
           this.errorResponse = true;
           this.errorMessage = `${error.response?.data.status || ""}  ${error.response?.data.message || "Unknown error"}`;
         });
-      console.log(this.users)
     }
   }
 }

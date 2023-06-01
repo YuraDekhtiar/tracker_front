@@ -1,5 +1,6 @@
 <script setup>
   import { RouterLink } from 'vue-router';
+  import onlyAdmin from '@/commons/only_admin';
 </script>
 <template>
   <nav class="navbar  navbar-expand-lg navbar-light bg-light ">
@@ -12,10 +13,10 @@
           <li class="nav-item">
             <RouterLink class="nav-link" to="/">Devices</RouterLink>
           </li>
-          <li class="nav-item" v-if="isAdmin" >
+          <li class="nav-item" v-if="onlyAdmin" >
             <RouterLink class="nav-link" to="/users">Users</RouterLink>
           </li>
-          <li class="nav-item" v-if="isAdmin" >
+          <li class="nav-item" v-if="onlyAdmin" >
             <RouterLink class="nav-link" to="/groups">Groups</RouterLink>
           </li>
           <li class="nav-item">
@@ -52,17 +53,6 @@ export default {
   props: {
     logoutHandler: Function,
     userName: String,
-  },
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-    isAdmin() {
-      if (this.currentUser && this.currentUser['roles']) {
-        return this.currentUser['roles'].includes('admin');
-      }
-      return false;
-    }
   },
 }
 </script>

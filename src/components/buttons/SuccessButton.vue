@@ -8,7 +8,7 @@
 export default {
   name: "vSuccessButton",
   methods: {
-    onClick () {
+    onClick() {
       this.$emit('click')
     }
   },

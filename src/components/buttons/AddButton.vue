@@ -1,12 +1,12 @@
 <template>
-  <b-button variant="danger" @click="onClick">
+  <b-button variant="outline-secondary" @click="onClick">
     {{ text }}
   </b-button>
 </template>
 
 <script>
 export default {
-  name: "vDeleteButton",
+  name: "vAddButton",
   methods: {
     onClick() {
       this.$emit('click')

@@ -3,10 +3,11 @@ import VPreloader from "@/components/Preloader.vue";
 import VIconDeleteButton from "@/components/buttons/IconDeleteWithModalConf.vue";
 import VAddButton from "@/components/buttons/AddButton.vue";
 import VCreateGroupModal from "@/components/modals/CreateGroupModal.vue";
+import onlyAdmin from "@/commons/only_admin";
 </script>
 
 <template>
-  <vPreloader v-if="isLoading"/>
+  <v-preloader v-if="isLoading"/>
   <div v-else class="container">
     <!--    <RouterLink v-if="onlyAdmin" class="float-end btn btn-info" :to="`/add-device`">Add group</RouterLink>-->
     <div class="d-flex justify-content-end">
@@ -94,11 +95,6 @@ export default {
           tdClass: 'text-center',
         },
       ],
-    }
-  },
-  computed: {
-    onlyAdmin() {
-      return this.$store.state.auth.user.isAdmin
     }
   },
   async beforeMount() {

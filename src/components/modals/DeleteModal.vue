@@ -42,14 +42,14 @@ export default {
   },
   methods: {
     ok() {
-      this.close();
       this.$emit('clickConfirm');
+      this.close();
     },
     close() {
       this.show = false;
     }
   },
-  event: {
+  emits: {
     clickConfirm: null
   },
   props: {
