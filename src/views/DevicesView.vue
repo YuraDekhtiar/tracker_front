@@ -1,7 +1,7 @@
 <script setup>
-  import VPreloader from "@/components/Preloader.vue";
-  import dateFilter from "@/commons/date.filter";
-  import onlyAdmin from "@/commons/only_admin"
+import VPreloader from "@/components/Preloader.vue";
+import dateFilter from "@/commons/date.filter";
+import onlyAdmin from "@/commons/only_admin"
 </script>
 
 <template>
@@ -10,7 +10,7 @@
     <RouterLink v-if="onlyAdmin" class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
     <h2 class="text-center">Devices</h2>
     <div v-if="errorResponse" class="alert alert-danger" role="alert">
-      {{errorMessage}}
+      {{ errorMessage }}
     </div>
     <div v-else>
       <vue-good-table
@@ -57,7 +57,7 @@
               :color="isOnline(props.row.is_online)"
             />
           </span>
-          <span v-else-if="props.column.field === 'actions'" >
+          <span v-else-if="props.column.field === 'actions'">
             <span v-if="onlyAdmin">
               <button class="btn p-0 me-2" title="Delete" @click="deleteHandler(props.row.id)">
                 <BootstrapIcon
@@ -86,7 +86,7 @@
             {{ dateFilter(props.row.time_last_connection) }}
           </span>
           <span v-else>
-            {{props.formattedRow[props.column.field]}}
+            {{ props.formattedRow[props.column.field] }}
           </span>
         </template>
       </vue-good-table>
@@ -97,6 +97,7 @@
 <script>
 
 import api from "@/api/api";
+
 export default {
   data() {
     return {
