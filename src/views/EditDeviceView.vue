@@ -51,7 +51,6 @@
 import * as yup from "yup";
 import {Form as vForm, Field, ErrorMessage} from 'vee-validate';
 import api from "@/api/api";
-import onlyAdmin from "@/commons/only_admin";
 
 export default {
   components: {
@@ -84,13 +83,24 @@ export default {
     }
   },
   created() {
-    if (!onlyAdmin) {
+    if (!this.onlyAdmin) {
       this.$router.push("/404");
     }
   },
   async beforeMount() {
     await this.fetchData();
     this.isLoading = false;
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    onlyAdmin() {
+      if (this.currentUser && this.currentUser['roles']) {
+        return this.currentUser['roles'].includes('admin');
+      }
+      return false;
+    }
   },
   methods: {
     onSubmit() {

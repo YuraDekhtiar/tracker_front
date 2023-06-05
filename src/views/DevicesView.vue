@@ -1,7 +1,6 @@
 <script setup>
 import VPreloader from "@/components/Preloader.vue";
 import dateFilter from "@/commons/date.filter";
-import onlyAdmin from "@/commons/only_admin"
 </script>
 
 <template>
@@ -146,6 +145,17 @@ export default {
     document.title = this.title;
     await this.fetchData();
     this.isLoading = false;
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    onlyAdmin() {
+      if (this.currentUser && this.currentUser['roles']) {
+        return this.currentUser['roles'].includes('admin');
+      }
+      return false;
+    }
   },
   methods: {
     async fetchData() {

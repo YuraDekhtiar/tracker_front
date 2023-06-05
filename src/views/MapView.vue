@@ -141,6 +141,7 @@ export default {
       this.center.lng = this.responseData?.coords.y;
     },
     isCharging(charging) {
+      console.log(this.responseData.is_charging)
       return charging ? "battery-charging" : "battery-full"
     },
     sharedLink(lat, lng) {

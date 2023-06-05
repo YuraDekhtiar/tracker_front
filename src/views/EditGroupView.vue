@@ -62,7 +62,6 @@ import VShortTable from "@/components/tables/ShortTable";
 
 import api from "@/api/api";
 import vToast from "@/commons/vToast";
-import onlyAdmin from "@/commons/only_admin";
 
 export default {
   data() {
@@ -115,8 +114,19 @@ export default {
     }
   },
   created() {
-    if (!onlyAdmin) {
+    if (!this.onlyAdmin) {
       this.$router.push("/404");
+    }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    onlyAdmin() {
+      if (this.currentUser && this.currentUser['roles']) {
+        return this.currentUser['roles'].includes('admin');
+      }
+      return false;
     }
   },
   async beforeMount() {

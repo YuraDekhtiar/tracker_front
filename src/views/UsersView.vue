@@ -56,7 +56,6 @@
 
 <script>
 import api from "@/api/api";
-import onlyAdmin from "@/commons/only_admin";
 export default {
   data() {
     return {
@@ -98,14 +97,20 @@ export default {
       ],
     }
   },
+  async created() {
+    if (!this.onlyAdmin) {
+      await this.$router.push("/404");
+    }
+  },
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
     },
-  },
-  async created() {
-    if (!onlyAdmin) {
-      await this.$router.push("/404");
+    onlyAdmin() {
+      if (this.currentUser && this.currentUser['roles']) {
+        return this.currentUser['roles'].includes('admin');
+      }
+      return false;
     }
   },
   async beforeMount() {
