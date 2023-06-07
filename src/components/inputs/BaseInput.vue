@@ -1,6 +1,7 @@
 <template>
   <div class="form-floating mb-3">
     <b-form-input
+      :type="type"
       id="floatingInput"
       :state="inputState"
       :placeholder="placeholder"
@@ -39,7 +40,8 @@ export default {
   props: {
     placeholder: "",
     invalidMassage: "",
-    state: "null"
+    state: "null",
+    type: "text"
   },
   watch: {
     state(e) {

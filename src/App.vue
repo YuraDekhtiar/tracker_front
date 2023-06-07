@@ -8,7 +8,7 @@
     <header class="border-bottom" v-if="store.state.auth.status.loggedIn">
       <Navbar :logoutHandler="logout" v-bind:userName="currentUser.username" />
     </header>
-    <main class="content">
+    <main>
       <RouterView />
     </main>
     <footer class="footer py-3 my-1 border-top">
@@ -58,7 +58,7 @@ import dayjs from "dayjs";
     flex-direction: column;
     min-height: 100%;
   }
-  .content {
+  main {
     flex: 1 0 auto;
   }
   .footer {

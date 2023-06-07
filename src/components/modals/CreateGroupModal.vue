@@ -49,8 +49,6 @@ export default {
       name: yup.string().required("Field is required").min(2, 'Min length 2 symbols').max(255, 'Max length 255 symbols'),
       description: yup.string().max(255, 'Max length 255 symbols')
     });
-    const rules = yup.string().required("Field is required").min(2, 'Min length 255 symbols').max(255, 'Max length 255 symbols');
-
     return {
       show: false,
       heading: "Create group",
@@ -58,7 +56,6 @@ export default {
       okVariant: "outline-success",
       errorInput: false,
       schema,
-      rules,
       values: {
         name: "",
         description: "",
