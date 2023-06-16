@@ -122,7 +122,7 @@ export default {
     async fetchData(id) {
       try {
         await Promise.all([
-          this.responseData = await api.get(`locations?id=${id}`).then(
+          this.responseData = await api.get(`location?id=${id}`).then(
             (res) => {
               return res.data.result[0];
             },
