@@ -40,7 +40,7 @@ export default {
   props: {
     placeholder: "",
     invalidMassage: "",
-    state: "null",
+    state: null,
     type: "text"
   },
   watch: {

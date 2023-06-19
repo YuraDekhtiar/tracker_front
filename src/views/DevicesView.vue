@@ -1,6 +1,8 @@
 <script setup>
 import VPreloader from "@/components/Preloader.vue";
 import dateFilter from "@/commons/date.filter";
+import VIconDeleteWithModalConf from "@/components/buttons/IconDeleteWithModalConf";
+import VIconEditButton from "@/components/buttons/IconEditButton";
 </script>
 
 <template>
@@ -36,42 +38,21 @@ import dateFilter from "@/commons/date.filter";
           perPage: 10,
         }"
       >
-        <template #selected-row-actions>
-          <span v-if="onlyAdmin">
-            <button class="btn" title="Delete" @click="deleteHandler(0)">
-              <BootstrapIcon
-                icon="trash3-fill"
-                size="2x"
-                color="red"
-              />
-            </button>
-          </span>
-        </template>
-
         <template #table-row="props">
-          <span v-if="props.column.field === 'is_online'">
+          <span v-if="props.column.field === 'is_online'" :title="isOnline(props.row.is_online).title">
             <BootstrapIcon
               icon="record-fill"
               size="2x"
-              :color="isOnline(props.row.is_online)"
+              :color="isOnline(props.row.is_online).color"
             />
           </span>
           <span v-else-if="props.column.field === 'actions'">
             <span v-if="onlyAdmin">
-              <button class="btn p-0 me-2" title="Delete" @click="deleteHandler(props.row.id)">
-                <BootstrapIcon
-                  icon="trash3-fill"
-                  size="2x"
-                  color="red"
-                />
-              </button>
-              <RouterLink class="me-2" :to="`/edit/${props.row.id}`" title="Edit">
-                <BootstrapIcon
-                  icon="pencil-fill"
-                  size="2x"
-                  color="blue"
-                />
-              </RouterLink>
+              <v-icon-delete-with-modal-conf
+                :item-name="props.row.name"
+                @delete-action="deleteHandler(props.row.id)"
+              />
+              <v-icon-edit-button :href="`/edit/${props.row.id}`"/>
             </span>
             <RouterLink :to="`/map/${props.row.id}`" title="Tracking">
               <BootstrapIcon
@@ -96,6 +77,7 @@ import dateFilter from "@/commons/date.filter";
 <script>
 
 import api from "@/api/api";
+import vToast from "@/commons/vToast";
 
 export default {
   data() {
@@ -125,7 +107,7 @@ export default {
           tdClass: 'text-start',
         },
         {
-          label: 'Online',
+          label: 'Status',
           field: 'is_online',
           width: '90px',
           tdClass: 'text-center',
@@ -160,18 +142,25 @@ export default {
   methods: {
     async fetchData() {
       this.devices = await api.get(`/device/devices`).then(
-        r => r.data.result.devices,
+        (r) => r.data.result.devices,
         (error) => {
           this.errorResponse = true;
           this.errorMessage = `${error.response?.data.status || ""}  ${error.response?.data.message || "Unknown error"}`;
         });
     },
     async deleteHandler(id) {
-      await api.delete(`/device/delete?id=${id}`)
-      this.devices = this.devices.filter(d => d.id !== id)
+      await api.delete(`/device/delete?id=${id}`).then(
+        async () => {
+          vToast.success(this, "Success")
+          this.devices = this.devices.filter(d => d.id !== id)
+        },
+        (error) => {
+          vToast.error(this, `${error.response.data.message}. Status: ${error.response.data.status} `)
+        }
+      )
     },
     isOnline(status) {
-      return status ? "green" : "red"
+      return {color: status ? "green" : "red", title: status ? "Online" : "Offline"};
     }
   }
 }
