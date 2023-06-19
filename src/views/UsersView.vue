@@ -1,6 +1,7 @@
 <script setup>
-  import dateFilter from "@/commons/date.filter";
-  import VPreloader from "@/components/Preloader.vue";
+import dateFilter from "@/commons/date.filter";
+import VPreloader from "@/components/Preloader.vue";
+import VIconDeleteWithModalConf from "@/components/buttons/IconDeleteWithModalConf";
 </script>
 
 <template>
@@ -9,40 +10,34 @@
     <RouterLink class="float-end btn btn-info" :to="`/create-new-user`">Create user</RouterLink>
     <h2 class="text-center">Users</h2>
     <div v-if="errorResponse" class="alert alert-danger" role="alert">
-        {{errorMessage}}
-      </div>
-      <div v-else>
-        <vue-good-table
-          compactMode
-          :columns="columns"
-          :rows="users"
-          line-numbers
-          :select-options="{
+      {{ errorMessage }}
+    </div>
+    <div v-else>
+      <vue-good-table
+        compactMode
+        :columns="columns"
+        :rows="users"
+        line-numbers
+        :select-options="{
             enabled: true,
             selectionInfoClass: 'selection-info',
             selectOnCheckboxOnly: true
           }"
-          :search-options="{
+        :search-options="{
             placeholder: 'Search',
             enabled: true,
           }"
-          :sort-options="{
+        :sort-options="{
             enabled: true,
             initialSortBy: {field: 'username', type: 'asc'}
           }"
       >
         <template #table-row="props">
-          <span v-if="props.column.field === 'actions'" >
-            <button class="btn p-0 me-2" title="Delete" @click="deleteHandler(props.row.id)">
-                <BootstrapIcon
-                  icon="trash3-fill"
-                  size="2x"
-                  color="red"
-                />
-              </button>
+          <span v-if="props.column.field === 'actions'">
+          <v-icon-delete-with-modal-conf :item-name="props.row.username" @delete-action="deleteHandler(props.row.id)"/>
           </span>
           <span v-else-if="props.column.field === 'roles'">
-            {{props.row.roles[0].name}}
+            {{ props.row.roles[0].name }}
           </span>
           <span v-else-if="props.column.field === 'last_visit'">
             {{ dateFilter(props.row.last_visit) }}
@@ -50,12 +45,14 @@
         </template>
       </vue-good-table>
 
-      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import api from "@/api/api";
+import vToast from "@/commons/vToast";
+
 export default {
   data() {
     return {
@@ -119,10 +116,6 @@ export default {
     this.isLoading = false;
   },
   methods: {
-    async deleteHandler(id) {
-      await api.delete(`/users/delete?id=${id}`)
-      this.users = this.users.filter(u => u.id !== id)
-    },
     async fetchData() {
       this.users = await api.get('/users').then(
         r => r.data.result.users,
@@ -130,7 +123,18 @@ export default {
           this.errorResponse = true;
           this.errorMessage = `${error.response?.data.status || ""}  ${error.response?.data.message || "Unknown error"}`;
         });
-    }
+    },
+    async deleteHandler(id) {
+      await api.delete(`/users/delete?id=${id}`).then(
+        async () => {
+          vToast.success(this, "Success")
+          this.users = this.users.filter(u => u.id !== id)
+        },
+        (error) => {
+          vToast.error(this, `${error.response.data.message}. Status: ${error.response.data.status} `)
+        }
+      )
+    },
   }
 }
 </script>
