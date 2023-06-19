@@ -1,6 +1,6 @@
 <template>
   <v-delete-modal :modalShow="modalShow" :itemName="itemName" @clickConfirm="deleteAction"/>
-  <button class="btn p-0" @click="onClick">
+  <button class="btn p-0" @click="onClick" title="Delete" >
     <BootstrapIcon
       icon="trash3-fill"
       size="2x"

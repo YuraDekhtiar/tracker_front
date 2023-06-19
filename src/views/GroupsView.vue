@@ -3,6 +3,7 @@ import VPreloader from "@/components/Preloader.vue";
 import VIconDeleteButton from "@/components/buttons/IconDeleteWithModalConf.vue";
 import VAddButton from "@/components/buttons/AddButton.vue";
 import VCreateGroupModal from "@/components/modals/CreateGroupModal.vue";
+import VIconEditButton from "@/components/buttons/IconEditButton";
 </script>
 
 <template>
@@ -44,13 +45,7 @@ import VCreateGroupModal from "@/components/modals/CreateGroupModal.vue";
             <span v-if="onlyAdmin">
               <v-icon-delete-button :itemName="props.row.name" @deleteAction="deleteHandler(props.row.id)"/>
               <span class="ms-2"/>
-              <RouterLink class="me-2" :to="`/edit-group/${props.row.id}`" title="Edit">
-                <BootstrapIcon
-                  icon="pencil-fill"
-                  size="2x"
-                  color="blue"
-                />
-              </RouterLink>
+              <v-icon-edit-button :href="`/edit-group/${props.row.id}`"/>
             </span>
           </span>
         </template>
@@ -114,7 +109,7 @@ export default {
   methods: {
     async fetchData() {
       this.groups = await api.get('/group/groups').then(
-        r => r.data.result.groups,
+        (r) => r.data.result.groups,
         (error) => {
           this.errorResponse = true;
           this.errorMessage = `${error.response?.data.status || ""}  ${error.response?.data.message || "Unknown error"}`;
@@ -123,16 +118,16 @@ export default {
     async deleteHandler(id) {
       await api.delete(`/group/delete?id=${id}`).then(
         () => {
-          vToast.success(this, 'Deleted success')
-          this.groups = this.groups.filter(item => item.id !== id)
+          vToast.success(this, 'Deleted success');
+          this.groups = this.groups.filter(item => item.id !== id);
         },
         (error) => {
-          vToast.error(this, `${error.response.data.message}. Status: ${error.response.data.status} `)
+          vToast.error(this, `${error.response.data.message}. Status: ${error.response.data.status} `);
         }
       )
     },
     isOnline(status) {
-      return status ? "green" : "red"
+      return status ? "green" : "red";
     }
   }
 }
