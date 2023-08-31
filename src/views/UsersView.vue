@@ -2,12 +2,14 @@
 import dateFilter from "@/commons/date.filter";
 import VPreloader from "@/components/Preloader.vue";
 import VIconDeleteWithModalConf from "@/components/buttons/IconDeleteWithModalConf";
+import VAddButton from "@/components/buttons/AddButton";
 </script>
 
 <template>
   <v-preloader v-if="isLoading"/>
   <div v-else class="container">
-    <RouterLink class="float-end btn btn-info" :to="`/create-new-user`">Create user</RouterLink>
+    <RouterLink class="float-end" :to="`/create-new-user`"><v-add-button text="Create user"/></RouterLink>
+
     <h2 class="text-center">Users</h2>
     <div v-if="errorResponse" class="alert alert-danger" role="alert">
       {{ errorMessage }}

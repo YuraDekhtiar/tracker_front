@@ -3,12 +3,14 @@ import VPreloader from "@/components/Preloader.vue";
 import dateFilter from "@/commons/date.filter";
 import VIconDeleteWithModalConf from "@/components/buttons/IconDeleteWithModalConf";
 import VIconEditButton from "@/components/buttons/IconEditButton";
+import VAddButton from "@/components/buttons/AddButton";
 </script>
 
 <template>
   <v-preloader v-if="isLoading"/>
   <div v-else class="container">
-    <RouterLink v-if="onlyAdmin" class="float-end btn btn-info" :to="`/add-device`">Add device</RouterLink>
+    <RouterLink v-if="onlyAdmin" class="float-end" :to="`/add-device`"><v-add-button text="Add device"/></RouterLink>
+
     <h2 class="text-center">Devices</h2>
     <div v-if="errorResponse" class="alert alert-danger" role="alert">
       {{ errorMessage }}

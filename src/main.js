@@ -23,7 +23,7 @@ createApp(App)
   .use(Toaster)
   .use(VueGoogleMaps, {
     load: {
-      key: 'AIzaSyDDLgEugMzce2xOwbvy3_fmHmzrAUv4_TU',
+      key: '',
     },
   })
   .use(VueGoodTablePlugin)
