@@ -20,23 +20,36 @@
 
 <script>
 
+export default {
+  data() {
+    return {
+      title: "Error 404",
+    }
+  },
+
+  async beforeMount() {
+    document.title = this.title;
+  }
+}
+
+
 </script>
 
 <style scoped>
-  .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    border-radius: .25rem;
-  }
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: .25rem;
+}
 
-  .card .card-header {
-    background-color: #fff;
-    border-bottom: none;
-  }
+.card .card-header {
+  background-color: #fff;
+  border-bottom: none;
+}
 </style>
