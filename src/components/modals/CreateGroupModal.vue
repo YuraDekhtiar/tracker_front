@@ -9,7 +9,7 @@
     >
       <vForm @submit="onSubmit" :validation-schema="schema">
         <Field name="name" v-model="values.name" v-slot="{ errorMessage }">
-          <v-base-input
+          <v-primary-input
             placeholder="Name"
             v-model:input=values.name
             :invalid-massage="errorMessage"
@@ -35,7 +35,7 @@
 import VDescriptionInput from "@/components/inputs/DescriptionInput.vue";
 import * as yup from "yup";
 import VueYupValidation from "vue-yup-validation";
-import VBaseInput from "@/components/inputs/BaseInput.vue";
+import vPrimaryInput from "@/components/inputs/PrimaryInput.vue";
 import VPrimaryButton from "@/components/buttons/PrimaryButton";
 import {Form as vForm, Field, ErrorMessage} from 'vee-validate';
 import api from "@/api/api";
@@ -43,7 +43,7 @@ import vToast from "@/commons/vToast";
 
 export default {
   name: "vCreateGroupModal",
-  components: {VPrimaryButton, VBaseInput, VDescriptionInput, VueYupValidation, vForm, Field, ErrorMessage},
+  components: {VPrimaryButton, vPrimaryInput, VDescriptionInput, VueYupValidation, vForm, Field, ErrorMessage},
   data() {
     const schema = yup.object().shape({
       name: yup.string().required("Field is required").min(2, 'Min length 2 symbols').max(255, 'Max length 255 symbols'),

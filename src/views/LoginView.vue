@@ -7,7 +7,7 @@
       <h3 class="text-center my-4">Sign In</h3>
       <v-form @submit="handleLogin" :validation-schema="schema">
         <Field name="username" v-model="values.username" v-slot="{ errorMessage }">
-          <v-base-input
+          <v-primary-input
             type="text"
             placeholder="Username"
             v-model:input=values.username
@@ -16,7 +16,7 @@
           />
         </Field>
         <Field name="password" v-model="values.password" v-slot="{ errorMessage }">
-          <v-base-input
+          <v-primary-input
             type="password"
             placeholder="Password"
             v-model:input=values.password
@@ -35,13 +35,13 @@
 <script>
 import Alert from "@/components/Alert";
 import {Form as vForm, Field, ErrorMessage} from 'vee-validate';
-import VBaseInput from "@/components/inputs/BaseInput.vue";
+import vPrimaryInput from "@/components/inputs/PrimaryInput.vue";
 import VPreloader from "@/components/Preloader.vue";
 import * as yup from "yup";
 import VPrimaryButton from "@/components/buttons/PrimaryButton";
 
 export default {
-  components: {VPrimaryButton, Alert, vForm, Field, ErrorMessage, VBaseInput, VPreloader},
+  components: {VPrimaryButton, Alert, vForm, Field, ErrorMessage, vPrimaryInput, VPreloader},
   data() {
     const schema = yup.object().shape({
       username: yup.string().required("Field username is required"),

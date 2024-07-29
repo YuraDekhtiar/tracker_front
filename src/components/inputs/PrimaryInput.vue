@@ -19,7 +19,7 @@
 <script>
 
 export default {
-  name: "vBaseInput",
+  name: "vPrimaryInput",
   data() {
     return {
       input: "",
