@@ -44,16 +44,16 @@ import VField from "@/components/inputs/Field.vue";
             <b-tab title="General">
               <div>
                 <div class="mt-3">
-                  <span class="fs-4 text">Email: </span><span class="fs-5 text">{{ data.email }}</span>
+                  <span class="fs-4 text primary">Email: </span><span class="fs-4 text">{{ data.email }}</span>
                 </div>
                 <div class="mt-3">
-                  <span class="fs-4 text">Last visit: </span><span class="fs-5 text">{{
+                  <span class="fs-4 text">Last visit: </span><span class="fs-4 text">{{
                     dateFilter(data.last_visit)
                   }}</span>
                 </div>
                 <div class="mt-3">
                   <span class="fs-4 text">Date registration: </span><span
-                  class="fs-5 text">{{ dateFilter(data.date_registration) }}</span>
+                  class="fs-4 text">{{ dateFilter(data.date_registration) }}</span>
                 </div>
               </div>
             </b-tab>
