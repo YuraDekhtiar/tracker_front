@@ -1,79 +1,117 @@
 <script setup>
 import dateFilter from "@/commons/date.filter";
 import VPreloader from "@/components/Preloader";
+import VErrorMessage from "@/components/ErrorMessage.vue";
+import VField from "@/components/inputs/Field.vue";
 </script>
 <template>
   <v-preloader v-if="isLoading"/>
   <div v-else class="container">
     <div class="row">
-      <div class="col-sm-5 col-md-3 col-lg-3">
+      <div class="col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
         <div class="media align-items-center">
-                  <span class="avatar avatar-sm rounded-circle">
-                    <img alt="Image placeholder"
-                         src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png">
-                  </span>
+          <button
+            class=" btn avatar avatar-sm rounded-circle position-relative"
+            @mouseover="showButton = true"
+            @mouseleave="showButton = false"
+            @click="onClickUpload"
+          >
+            <img
+              alt="User icon"
+              src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+              href=""
+            >
+
+            <BootstrapIcon
+              v-if="showButton"
+              class="col-sm-3 p-0 position-absolute bottom-0 end-0"
+              icon="pencil-square"
+              size="2x"
+              color="black"
+            />
+            <input type="file" ref="fileInput" @change="onFileChange" style="display: none">
+          </button>
+          <div class="text-center">
+            <span class="fs-2 text">
+              {{ data.username }}
+            </span>
+          </div>
         </div>
       </div>
-      <div class="col-sm">
-        <hr/>
-        <div>
-          <div class="mt-3">
-            <span class="fs-4 text">Login: </span><span class="fs-5 text">{{ data.username }}</span>
-          </div>
-          <div class="mt-3">
-            <span class="fs-4 text">Email: </span><span class="fs-5 text">{{ data.email }}</span>
-          </div>
-          <div class="mt-3">
-            <span class="fs-4 text">Last visit: </span><span class="fs-5 text">{{ dateFilter(data.last_visit) }}</span>
-          </div>
-          <div class="mt-3">
-            <span class="fs-4 text">Date registration: </span><span
-            class="fs-5 text">{{ dateFilter(data.date_registration) }}</span>
-          </div>
-          <div class="mt-3">
-            <ul class="fs-5 text">
-              Roles:
-              <li v-for="item in data.roles" :key="item.id">
-                <span class="fs-5 text">{{ item.name }}</span>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-3">
-            <ul class="fs-5 text">
-              Groups:
-              <li v-for="item in data?.groups" :key="item.id">
-                <span class="fs-5 text">{{ item.name }}</span>
-              </li>
-            </ul>
-          </div>
-          <hr/>
-          <vForm @submit="onSubmit" :validation-schema="schema">
-            <Field class="form-control " placeholder="old password" name="oldPassword" type="password"
-                   v-model="oldPassword"/>
-            <div>
-              <ErrorMessage class="" name="oldPassword"/>
-            </div>
-            <Field class="form-control mt-2" placeholder="new password" name="newPassword" type="password"
-                   v-model="newPassword"/>
-            <div>
-              <ErrorMessage class="" name="newPassword"/>
-            </div>
-            <Field class="form-control mt-2" placeholder="confirm password" name="newConfPassword" type="password"
-                   v-model="newConfPassword"/>
-            <div>
-              <ErrorMessage class="" name="newConfPassword"/>
-            </div>
-            <div
-              v-if="message"
-              class="alert mt-2"
-              :class="successful ? 'alert-success' : 'alert-danger'"
-            >
-              {{ message }}
-            </div>
-            <button class="btn btn-primary mt-2" type="submit">Save</button>
-          </vForm>
-          <hr/>
-        </div>
+      <div class="col-sm col-md col-lg col-xl col-xxl">
+        <b-card no-body>
+          <b-tabs small card>
+            <b-tab title="General">
+              <div>
+                <div class="mt-3">
+                  <span class="fs-4 text">Email: </span><span class="fs-5 text">{{ data.email }}</span>
+                </div>
+                <div class="mt-3">
+                  <span class="fs-4 text">Last visit: </span><span class="fs-5 text">{{
+                    dateFilter(data.last_visit)
+                  }}</span>
+                </div>
+                <div class="mt-3">
+                  <span class="fs-4 text">Date registration: </span><span
+                  class="fs-5 text">{{ dateFilter(data.date_registration) }}</span>
+                </div>
+              </div>
+            </b-tab>
+            <b-tab title="Info">
+              <div class="mt-3" v-if="data?.roles.length > 0">
+                <ul class="fs-5 text">
+                  Roles:
+                  <li v-for="item in data?.roles" :key="item.id">
+                    <span class="fs-5 text">{{ item.name }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="mt-3">
+                <ul class="fs-5 text" v-if="data?.groups.length > 0">
+                  Groups:
+                  <li v-for="item in data?.groups" :key="item.id">
+                    <span class="fs-5 text">{{ item.name }}</span>
+                  </li>
+                </ul>
+              </div>
+            </b-tab>
+            <b-tab title="Edit profile">
+              <vForm @submit="onSubmit" :validation-schema="schema">
+                <vField
+                  placeholder="Old password"
+                  name="oldPassword"
+                  type="password"
+                  :validateOnBlur="false"
+                  v-model:input="oldPassword" />
+                <div>
+                  <vErrorMessage name="oldPassword"/>
+                </div>
+                <vField
+                  placeholder="New password"
+                  name="newPassword"
+                  type="password"
+                  :validateOnBlur="false"
+                  v-model:input="newPassword"/>
+                <div>
+                  <vErrorMessage class="" name="newPassword"/>
+                </div>
+                <vField
+                  placeholder="Confirm password"
+                  name="newConfPassword"
+                  type="password"
+                  :validateOnBlur="false"
+                  v-model:input="newConfPassword"/>
+                <div>
+                  <vErrorMessage class="" name="newConfPassword"/>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button class="btn btn-primary mt-2" type="submit">Save</button>
+                </div>
+              </vForm>
+            </b-tab>
+          </b-tabs>
+        </b-card>
+
       </div>
     </div>
   </div>
@@ -83,34 +121,35 @@ import VPreloader from "@/components/Preloader";
 import api from "@/api/api";
 import {Form as vForm, Field, ErrorMessage} from 'vee-validate';
 import * as yup from "yup";
+import vToast from "@/commons/vToast";
 
 export default {
   components: {
     vForm,
     Field,
-    ErrorMessage
+    ErrorMessage,
   },
   data: () => {
     const schema = yup.object({
       oldPassword: yup.string().required('Old password is required'),
-      newPassword: yup.string().required('Password is required').min(8, "Password must be at least 8 characters")
+      newPassword: yup.string().required('Password is required')
+        .min(8, "Password must be at least 8 characters")
         .max(20, "Password must be at most 20 characters"),
       newConfPassword: yup.string()
-        .oneOf([yup.ref('newPassword'), null], 'Confirm password must match Password').required('Confirm password is required').min(8, "Confirm password must be at least 8 characters")
+        .oneOf([yup.ref('newPassword'), null], 'Confirm password must match Password')
+        .required('Confirm password is required').min(8, "Confirm password must be at least 8 characters")
         .max(20, "Confirm password must be at most 20 characters"),
     });
+
     return {
       title: "Profile",
       schema,
+      showButton: false,
       isLoading: true,
-      loading: false,
       data: Object,
-      message: "",
-      successful: false,
       oldPassword: "",
       newPassword: "",
       newConfPassword: ""
-
     }
   },
   computed: {
@@ -124,26 +163,27 @@ export default {
     this.isLoading = false;
   },
   methods: {
+    onClickUpload() {
+      this.$refs.fileInput.click();
+    },
     async fetchData() {
       this.data = await api.get('/profile').then(r => r.data.result);
     },
-    async onSubmit() {
+    async onSubmit(values, {resetForm}) {
       this.loading = true;
-      this.message = "";
-
       const passwords = {
         oldPassword: this.oldPassword.trim(),
         newPassword: this.newPassword.trim(),
         confNewPassword: this.newConfPassword.trim(),
       }
+      console.log(passwords)
       await api.put('/profile/change-pass', passwords).then(
         () => {
-          this.message = "Success";
-          this.successful = true;
+          vToast.success(this, "Success")
+          resetForm()
         },
         (error) => {
-          this.message = error.response.data.message
-          this.successful = false;
+          vToast.error(this, error.response.data.message)
         }
       );
     },
