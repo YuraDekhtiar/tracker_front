@@ -21,7 +21,6 @@ import VField from "@/components/inputs/Field.vue";
               src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
               href=""
             >
-
             <BootstrapIcon
               v-if="showButton"
               class="col-sm-3 p-0 position-absolute bottom-0 end-0"
@@ -82,7 +81,7 @@ import VField from "@/components/inputs/Field.vue";
                   name="oldPassword"
                   type="password"
                   :validateOnBlur="false"
-                  v-model:input="oldPassword" />
+                  v-model:input="oldPassword"/>
                 <div>
                   <vErrorMessage name="oldPassword"/>
                 </div>
@@ -111,7 +110,6 @@ import VField from "@/components/inputs/Field.vue";
             </b-tab>
           </b-tabs>
         </b-card>
-
       </div>
     </div>
   </div>
@@ -122,6 +120,7 @@ import api from "@/api/api";
 import {Form as vForm, Field, ErrorMessage} from 'vee-validate';
 import * as yup from "yup";
 import vToast from "@/commons/vToast";
+import axios from "axios";
 
 export default {
   components: {
@@ -166,6 +165,23 @@ export default {
     onClickUpload() {
       this.$refs.fileInput.click();
     },
+    async onFileChange(event) {
+
+      const formData = new FormData()
+      formData.append("imageFile", event.target.files[0])
+
+      await api.post('/profile/upload-logo',
+        formData,
+      ).then(
+        (data) => {
+          console.log(data)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+
+    },
     async fetchData() {
       this.data = await api.get('/profile').then(r => r.data.result);
     },
@@ -176,7 +192,6 @@ export default {
         newPassword: this.newPassword.trim(),
         confNewPassword: this.newConfPassword.trim(),
       }
-      console.log(passwords)
       await api.put('/profile/change-pass', passwords).then(
         () => {
           vToast.success(this, "Success")
